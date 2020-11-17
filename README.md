@@ -1,2 +1,2 @@
 # 220project
-![UML Diagram](/UML_Diagram.jpg)
+![UML Diagram](/UML_Diagram.png)
