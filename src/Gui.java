@@ -1,3 +1,6 @@
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -14,6 +17,7 @@ public class Gui {
 	JPanel statsMap;
 	
 	JLabel label;
+	JLabel health;
 	
 	ArrayList<JButton> gameBoard = new ArrayList<JButton>();
 	
@@ -26,6 +30,23 @@ public class Gui {
 		
 		gameMap.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
 		
+		statsMap.setBorder(BorderFactory.createBevelBorder(0, Color.GRAY, Color.BLACK));
 		
+		frame.setPreferredSize(new Dimension(600, 600));
+		
+		health = new 
+		
+		statsMap.add(health);
+		
+		frame.add(gameMap, BorderLayout.EAST);
+		frame.add(statsMap, BorderLayout.WEST);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle("TicTacToe");
+		frame.pack();
+		frame.setVisible(true);
+	}
+	
+	public static void main(String[] args) {
+		new Gui();
 	}
 }
