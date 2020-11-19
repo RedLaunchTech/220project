@@ -24,7 +24,7 @@ public class Board {
 	 * Generates roster of pieces for the @param currPlayer
 	 */
 	public void generateRoster(boolean currPlayer) {
-		
+		//do some things
 	}
 	
 	
