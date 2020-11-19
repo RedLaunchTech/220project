@@ -7,12 +7,19 @@ public class Game {
 	private String userInput;
 	Scanner in;
 	
+	/**
+	 * Constructor for a new game instance
+	 */
 	public Game() {
 		board = new Board(10, 10);
 		isBlueTurn = true;
 		
 	}
 	
+	/**
+	 * Loops the game with each player taking turns until a player has won.
+	 * Actions during a turn include: move, attack, view board, show stats, and pass
+	 */
 	public void gameLoop() {
 		Scanner in = new Scanner(System.in);
 		board.placePieces();
@@ -73,6 +80,9 @@ public class Game {
 		return null;
 	}
 	
+	/**
+	 * Prints the menu of move options to the player
+	 */
 	private void printMenu() {
 		System.out.println("Actions:");
 		System.out.println("1) MOVE");
@@ -83,10 +93,16 @@ public class Game {
 		System.out.println();
 	}
 	
+	/**
+	 * @return true if red is out of pieces and blue has won the game
+	 */
 	private boolean blueHasWon() {
 		return false;
 	}
 	
+	/**
+	 * @return true if blue is out of pieces and red has won the game
+	 */
 	private boolean redHasWon() {
 		return false;
 	}
