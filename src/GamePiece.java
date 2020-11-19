@@ -1,6 +1,6 @@
 
 public abstract class GamePiece {
-	final protected int maxHitPoints;
+	protected int maxHitPoints;
 	protected int row;
 	protected int column;
 	protected int hitPoints;
