@@ -4,6 +4,5 @@ public class Main {
 		Game newGame;
 		newGame = new Game();
 		newGame.gameLoop();
-		System.out.println("poop");
 	}	
 }
