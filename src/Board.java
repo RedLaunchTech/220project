@@ -79,6 +79,21 @@ public class Board {
 	}
 	
 	/**
+	 * @param assassin deals extra damage if @param targer has no friendly pieces within its movement range
+	 */
+	// i don't know if this works, but if the attacker is an assassin this should happen
+	public void fight(Assassin assassin, GamePiece target) {
+		boolean isIsolated = false;
+		// TODO find if piece is isolated
+		
+		if(isIsolated) {
+			target.takeDamage((int)(assassin.dealDamage() * assassin.getSneakMultiplier()));
+		} else {
+			target.takeDamage(assassin.dealDamage());
+		}
+	}
+	
+	/**
 	 * @return piece at @param row, @param column
 	 */
 	public GamePiece getPieceAt(int row, int column) {
@@ -124,6 +139,28 @@ public class Board {
 	 */
 	public boolean canFight(GamePiece attacker, GamePiece defender) {
 		return false;
+	}
+	
+	/**
+	 * When the knight dies, it is as if the horse dies and it becomes a swordsman
+	 */
+	public void knightDeath(Knight knight) {
+
+	}
+	
+	/**
+	 * Increases the attack damage of a friendly @param target, target must be within attack range
+	 */
+	public void castBuff(Mage mage, GamePiece target) {
+		
+	}
+	
+	/**
+	 * Restores the hit points of a friendly @param target, targer must be within attack range
+	 * Hit points cannot exceed than maxHitPoints
+	 */
+	public void castHeal(Mage mage, GamePiece target) {
+		
 	}
 	
 }

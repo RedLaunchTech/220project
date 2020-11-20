@@ -1,20 +1,25 @@
 
 public class Assassin extends GamePiece {
 	
+	private final double sneakMultiplier;
 	/**
 	 * Constructor for an assassin at position @param row, @param column and team @param isBlueTeam
 	 * Assassin has preset stats.
 	 */
-	public Assassin(int row, int column, boolean isBlueTeam) {
-		super(row, column, isBlueTeam);
+	public Assassin(boolean isBlueTeam) {
+		super(isBlueTeam);
+		maxHitPoints = 10;
+		hitPoints = maxHitPoints;
+		attackDamage = 10;
+		attackRange = 1;
+		moveSpeed = 3;
+		critChance = 0.2;
+		pieceType = "Assassin";
+		sneakMultiplier = 1.25;
+	}
+	
+	public double getSneakMultiplier() {
+		return sneakMultiplier;
 	}
 
-	/**
-	 * Assassin can deal a stealth strike which does increased damage to isolated enemy pieces
-	 */
-	@Override
-	public int dealDamage() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }
