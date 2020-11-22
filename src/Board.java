@@ -21,6 +21,10 @@ public class Board {
 		positionsAndPieces = new TreeMap();
 	}
 	
+	public TreeMap<Integer, GamePiece> getPositionsAndPieces() {
+		return positionsAndPieces;
+	}
+	
 	/**
 	 * @return ArrayList of game pieces on the board
 	 */
