@@ -135,10 +135,16 @@ public class Board {
 	
 	// comment
 	public TreeMap<Integer, String> availableActions(Integer index) {
-		TreeMap<Integer, String> availableActions = new TreeMap();
+		
+		return getMoves(index);
+	}
+	
+	private TreeMap<Integer, String> getMoves(Integer index) {
+		TreeMap<Integer, String> availableMoves = new TreeMap();
 		GamePiece piece = this.getPieceAt(index);
 		int moveSpeed = piece.getMoveSpeed();
 		int checks = (moveSpeed*4 + (moveSpeed-1)*4);
+		
 		for (int i = 0; i < moveSpeed; ++i) {
 			if ((index + i +1) % width == 0) {
 				break;
@@ -147,23 +153,129 @@ public class Board {
 				break;
 			}
 			else {
-				StringBuilder sb = new StringBuilder();
-				if (positionsAndPieces.containsKey(index+i+1)) {
-					if (isFriend(index, index+i+1) && piece.getPieceType() == "Mage") {
-						sb.append("h");
-					}
-					else if (!isFriend(index, index+i+1)) {
-						sb.append("a");
-					}
-					sb.append(positionsAndPieces.get(index+i+1).formatName());
-					availableActions.put(index+i+1, sb.toString());
-				}
-				else {
-					availableActions.put(index+i+1, "m");
+				if (!positionsAndPieces.containsKey(index+i+1)) {
+					availableMoves.put(index+i+1, "m");
 				}
 			}
 		}
-		return  availableActions;
+		
+		for (int i = 0; i < moveSpeed; ++i) {
+			if ((index - (i+1)) % width == 14) {
+				break;
+			}
+			else if ((index - (i +1)) < 0) {
+				break;
+			}
+			else {
+				if (!positionsAndPieces.containsKey(index - (i+1))) {
+					availableMoves.put(index - (i+1), "m");
+				}
+			}
+		}
+		
+		for (int i = 0; i < moveSpeed; ++i) {
+			if ((index + (i+1)*width) > (width*height)) {
+				break;
+			}
+			else {
+				if (!positionsAndPieces.containsKey(index + (i+1)*width)) {
+					availableMoves.put(index + (i+1)*width, "m");
+				}
+			}
+		}
+		
+		for (int i = 0; i < moveSpeed; ++i) {
+			if ((index - (i+1)*width) < 0) {
+				break;
+			}
+			else {
+				if (!positionsAndPieces.containsKey(index - (i+1)*width)) {
+					availableMoves.put(index - (i+1)*width, "m");
+				}
+			}
+		}
+		
+		int colIndex = 1;
+		int rowIndex;
+		while (colIndex != moveSpeed) {
+			rowIndex = colIndex;
+			if (index + (moveSpeed-colIndex) + width*rowIndex % 15 == 0) {
+				break;
+			}
+			
+			while (rowIndex != 0) {
+				if (index + (moveSpeed-colIndex) + width*rowIndex > width*height) {
+					break;
+				}
+				if (!positionsAndPieces.containsKey(index + (moveSpeed-colIndex) + width*rowIndex)) {
+					availableMoves.put(index + (moveSpeed-colIndex) + width*rowIndex, "m");
+				}
+				--rowIndex;
+			}
+			++colIndex;
+		}
+		
+		colIndex = 1;
+		while (colIndex != moveSpeed) {
+			rowIndex = colIndex;
+			if (index + (moveSpeed-colIndex) - width*rowIndex % 15 == 0) {
+				break;
+			}
+			
+			while (rowIndex != 0) {
+				if (index + (moveSpeed-colIndex) - width*rowIndex < 0) {
+					break;
+				}
+				if (!positionsAndPieces.containsKey(index + (moveSpeed-colIndex) - width*rowIndex)) {
+					availableMoves.put(index + (moveSpeed-colIndex) - width*rowIndex, "m");
+				}
+				
+				--rowIndex;
+			}
+			++colIndex;
+		}
+		
+		colIndex = 1;
+		while (colIndex != moveSpeed) {
+			rowIndex = colIndex;
+			if (index - (moveSpeed-colIndex) + width*rowIndex % 15 == 14) {
+				break;
+			}
+			
+			while (rowIndex != 0) {
+				if (index - (moveSpeed-colIndex) + width*rowIndex > width*height) {
+					break;
+				}
+				if (!positionsAndPieces.containsKey(index - (moveSpeed-colIndex) + width*rowIndex)) {
+					availableMoves.put(index - (moveSpeed-colIndex) + width*rowIndex, "m");
+				}
+				
+				--rowIndex;
+			}
+			++colIndex;
+		}
+		
+		colIndex = 1;
+		while (colIndex != moveSpeed) {
+			rowIndex = colIndex;
+			if (index - (moveSpeed-colIndex) - width*rowIndex % 15 == 14) {
+				break;
+			}
+			
+			while (rowIndex != 0) {
+				if (index - (moveSpeed-colIndex) - width*rowIndex < 0) {
+					break;
+				}
+				if (!positionsAndPieces.containsKey(index - (moveSpeed-colIndex) - width*rowIndex)) {
+					availableMoves.put(index - (moveSpeed-colIndex) - width*rowIndex, "m");
+				}
+				
+				--rowIndex;
+			}
+			++colIndex;
+		}
+		
+		return  availableMoves;
 	}
 	
 	private boolean isFriend(Integer i, Integer j) {
@@ -218,3 +330,15 @@ public class Board {
 	
 	
 }
+
+//StringBuilder sb = new StringBuilder();
+//if (positionsAndPieces.containsKey(index+i+1)) {
+//	if (isFriend(index, index+i+1) && piece.getPieceType() == "Mage") {
+//		sb.append("h");
+//	}
+//	else if (!isFriend(index, index+i+1)) {
+//		sb.append("a");
+//	}
+//	sb.append(positionsAndPieces.get(index+i+1).formatName());
+//	availableActions.put(index+i+1, sb.toString());
+//}
