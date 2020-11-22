@@ -1,78 +1,87 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 
-public class Game {
+import javax.swing.ImageIcon;
+
+
+
+public class Game implements ActionListener{
+	//This class belongs to nick now
+	
+	
+	final int ROWS = 10;
+	final int COLS = 15;
+	final int NUMSPACES = ROWS*COLS;
+	
 	private boolean isBlueTurn;
 	private Board board;
 	private String userInput;
+	
+	String action;
+	int activePiece;
+	int secondPoint;
+	
 	Scanner in;
+	
+	Gui gui;
+	
+	Map<Integer, String> map = new TreeMap<Integer, String>();
+	
 	
 	/**
 	 * Constructor for a new game instance
 	 */
 	public Game() {
-		board = new Board(10, 10);
+		map.put(0, "rArcher");
+		map.put(NUMSPACES-1, "bArcher");
+		map.put(9, "bArcher");
+		
+		board = new Board(ROWS, COLS);
 		isBlueTurn = true;
 		
+		action = "click";
+		
+		gui = new Gui(this);
+		gui.placePieces(map);
+		
+		
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		for (int i = 0; i <= NUMSPACES-1; i++) {
+			if (e.getActionCommand().equals("MATRIX_BUTTON_" + i)) {
+				gameRun(i);
+				
+			}
+		}
 	}
 	
 	/**
 	 * Loops the game with each player taking turns until a player has won.
 	 * Actions during a turn include: move, attack, view board, show stats, and pass
 	 */
-	public void gameLoop() {
-		Scanner in = new Scanner(System.in);
-		board.placePieces();
-		while (!this.blueHasWon() && !redHasWon()) {
-			if (isBlueTurn) {
-				System.out.println("Blue's Turn");
-			}
-			else {
-				System.out.println("Red's turn");
-			}
-			this.printMenu();
+	public void gameRun(int userInput) {
+		
+		switch(action) {
+		case "click":
+			activePiece = userInput;
+			//gui.moveButtons(board.getMovable());
+			action = "move";
+			break;
+		case "move":
+			secondPoint = userInput;
+			break;
+		case "attack":
 			
-			userInput = in.next();
-			if (userInput.contentEquals("1")) {
-				System.out.println("Enter the row coordinate of the piece you'd like to move:");
-				int startRow = in.nextInt();
-				System.out.println("Enter the column coordinate of the piece you'd like to move:");
-				int startColumn = in.nextInt();
-				System.out.println("Enter the row coordinate of the location you'd like to move to:");
-				int endRow = in.nextInt();
-				System.out.println("Enter the row coordinate of the location you'd like to move to:");
-				int endColumn = in.nextInt();
-				board.movePiece(startRow, startColumn, endRow, endColumn);
-			}
-			if (userInput.contentEquals("2")) {
-				System.out.println("Enter the row coordinate of the attacking piece:");
-				int attackerRow = in.nextInt();
-				System.out.println("Enter the column coordinate of the attacking piece:");
-				int attackerColumn = in.nextInt();
-				System.out.println("Enter the row coordinate of the defending piece:");
-				int defenderRow = in.nextInt();
-				System.out.println("Enter the column coordinate of the defending piece:");
-				int defenderColumn = in.nextInt();
-				GamePiece attacker = board.getPieceAt(attackerRow, attackerColumn);
-				GamePiece defender = board.getPieceAt(defenderRow, defenderColumn);
-				board.fight(attacker, defender);
-			}
-			if (userInput.contentEquals("3")) {
-				System.out.println(board.toString());
-			}
-			if (userInput.contentEquals("4")) {
-				System.out.println("Enter the row coordinate of the piece:");
-				int statRow = in.nextInt();
-				System.out.println("Enter the column coordinate of the piece:");
-				int statColumn = in.nextInt();
-				board.getPieceAt(statRow, statColumn).getStats();
-			}
-			if (userInput.contentEquals("5")) {
-				isBlueTurn = !isBlueTurn;
-			}
-			
+			break;
 		}
-		System.out.println(board.toString());
+		
 		
 	}
 

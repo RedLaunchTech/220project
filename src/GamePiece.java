@@ -1,23 +1,29 @@
+import java.util.Random;
 
 public abstract class GamePiece {
+
+	protected boolean isBlueTeam;
 	protected int maxHitPoints;
-	protected int row;
-	protected int column;
 	protected int hitPoints;
 	protected int attackDamage;
 	protected int attackRange;
 	protected int moveSpeed;
 	protected double critChance;
-	protected boolean isBlueTeam;
 	protected String pieceType;
-	protected char boardSymbol;
 	
 	/**
 	 * Constructor for abstract GamePiece.
 	 * All pieces will have @param row, @param column, and @param isBlueTeam
 	 */
-	public GamePiece(int row, int column, boolean isBlueTeam) {
-
+	public GamePiece(boolean isBlueTeam) {
+		this.isBlueTeam = isBlueTeam;
+	}
+	
+	/**
+	 * @return true if piece is on the blue team
+	 */
+	public boolean isBlueTeam() {
+		return isBlueTeam;
 	}
 	
 	/**
@@ -25,52 +31,6 @@ public abstract class GamePiece {
 	 */
 	public int getMaxHitPoints() {
 		return maxHitPoints;
-	}
-	
-	/**
-	 * @return type of piece
-	 */
-	public String getPieceType() {
-		return pieceType;
-	}
-	/**
-	 * Sets value of pieceType to @param pieceType
-	 */
-	public void setPieceType(String pieceType) {
-		this.pieceType = pieceType;
-	}
-	
-	/**
-	 * @return char of symbol that represents the piece
-	 */
-	public char getBoardSymbol() {
-		return boardSymbol;
-	}
-
-	/**
-	 * @return row position of the piece
-	 */
-	public int getRow() {
-		return row;
-	}
-	/**
-	 * Sets row position to @param row
-	 */
-	public void setRow(int row) {
-		this.row = row;
-	}
-	
-	/**
-	 * @return column position of the piece
-	 */
-	public int getColumn() {
-		return column;
-	}
-	/**
-	 * Sets column position to @param column
-	 */
-	public void setColumn(int column) {
-		this.column = column;
 	}
 	
 	/**
@@ -139,16 +99,10 @@ public abstract class GamePiece {
 	}
 	
 	/**
-	 * @return true if piece is on the blue team
+	 * @return type of piece
 	 */
-	public boolean isBlueTeam() {
-		return isBlueTeam;
-	}
-	/**
-	 * Sets the team of the piece based on @param isBlueTeam
-	 */
-	public void setBlueTeam(boolean isBlueTeam) {
-		this.isBlueTeam = isBlueTeam;
+	public String getPieceType() {
+		return pieceType;
 	}
 	
 	/**
@@ -161,22 +115,48 @@ public abstract class GamePiece {
 	/**
 	 * Piece takes damage, health points reduced by @param damage
 	 */
-	protected void takeDamage(int damage) {
+	public void takeDamage(int damage) {
 		
 	}
 
 	/**
 	 * @return damage dealt to enemy piece
 	 */
-	protected int dealDamage() {
-		return 0;	
+	public int dealDamage() {
+		Random rand = new Random();
+		int damage = attackDamage;
+		if(rand.nextDouble() < critChance) {
+			damage = (int)(damage*1.5);
+		}
+		return damage;	
 	}
 
 	/**
 	 * @return stats of the piece
 	 */
-	protected String getStats() {
-		return "";
+	public String getStats() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Hit points: " + hitPoints + "/" + maxHitPoints + "\n");
+		sb.append("Attack damage: " + attackDamage + "\n");
+		sb.append("Attack range: " + attackRange + "\n");
+		sb.append("Crit chance: " + critChance*100 + "%\n");
+		sb.append("Movement speed: " + moveSpeed + "\n");
+		
+		return sb.toString();
+	}
+	
+	/**
+	 * @return formatted name with the combination of the team and type of the piece
+	 */
+	public String formatName() {
+		String formattedName;
+		if(isBlueTeam) {
+			formattedName = "b" + pieceType;
+		} else {
+			formattedName = "r" + pieceType;
+		}
+		
+		return formattedName;
 	}
 	
 }

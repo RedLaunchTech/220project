@@ -1,3 +1,4 @@
+import java.util.Random;
 
 public class Shieldbearer extends GamePiece {
 	
@@ -6,7 +7,7 @@ public class Shieldbearer extends GamePiece {
 	 * Shieldbearer has preset stats.
 	 */
 	public Shieldbearer(int row, int column, boolean isBlueTeam) {
-		super(row, column, isBlueTeam);
+		super(isBlueTeam);
 	}
 
 	/**
@@ -14,7 +15,11 @@ public class Shieldbearer extends GamePiece {
 	 */
 	@Override
 	public void takeDamage(int damage) {
-		// TODO Auto-generated method stub
-		
+		Random rand = new Random();
+		if(rand.nextDouble() < 0.5) {
+			hitPoints -= damage / 2;
+		} else {
+			hitPoints -= damage;
+		}
 	}
 }
