@@ -226,6 +226,9 @@ public class Board {
 				if (index + (moveSpeed-colIndex) - width*rowIndex < 0) {
 					break;
 				}
+				if (index + (moveSpeed-colIndex) > width*height) {
+					break;
+				}
 				if (!positionsAndPieces.containsKey(index + (moveSpeed-colIndex) - width*rowIndex)) {
 					availableMoves.put(index + (moveSpeed-colIndex) - width*rowIndex, "m");
 				}
@@ -244,6 +247,9 @@ public class Board {
 			
 			while (rowIndex != 0) {
 				if (index - (moveSpeed-colIndex) + width*rowIndex > width*height) {
+					break;
+				}
+				if (index - (moveSpeed - colIndex) < 0) {
 					break;
 				}
 				if (!positionsAndPieces.containsKey(index - (moveSpeed-colIndex) + width*rowIndex)) {
