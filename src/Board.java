@@ -12,7 +12,7 @@ public class Board {
 	private ArrayList<Integer> occupiedSpaces;
 	private TreeMap<Integer, GamePiece> positionsAndPieces;
 
-	public Board(int width, int height) {
+	public Board(int height, int width) {
 		this.width = width;
 		this.height = height;
 		PIECETYPES = new ArrayList<>(List.of("Archer","Assassin","Knight","Mage","Shieldbearer","Swordsman"));
