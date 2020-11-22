@@ -125,8 +125,48 @@ public class Board {
 		}
 	}
 	
-	public TreeMap<Integer, String> availableActions(Integer i) {
-		return null;
+	// comment
+	public TreeMap<Integer, String> availableActions(Integer index) {
+		TreeMap<Integer, String> availableActions = new TreeMap();
+		GamePiece piece = this.getPieceAt(index);
+		int moveSpeed = piece.getMoveSpeed();
+		int checks = (moveSpeed*4 + (moveSpeed-1)*4);
+		for (int i = 0; i < moveSpeed; ++i) {
+			if ((index + i) % width == 0) {
+				break;
+			}
+			else if ((index + i) > (width*height)) {
+				break;
+			}
+			else {
+				StringBuilder sb = new StringBuilder();
+				if (positionsAndPieces.containsKey(index+i)) {
+					if (isFriend(index, index+i) && piece.getPieceType() == "Mage") {
+						sb.append("h");
+					}
+					else if (!isFriend(index, index+i)) {
+						sb.append("a");
+					}
+					sb.append(positionsAndPieces.get(index+i).formatName());
+					availableActions.put(index+i, sb.toString());
+				}
+				else {
+					availableActions.put(index+i, "");
+				}
+			}
+		}
+		return  availableActions;
+	}
+	
+	private boolean isFriend(Integer i, Integer j) {
+		GamePiece pieceOne = getPieceAt(i);
+		GamePiece pieceTwo = getPieceAt(j);
+		if (pieceOne.isBlueTeam() == pieceTwo.isBlueTeam()) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	/**
 	 * @return piece at @param row, @param column
@@ -141,25 +181,9 @@ public class Board {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-
 		return sb.toString();
 	}
 	
-	/**
-	 * @return true if @param piece can move to the space at @param row, @param column
-	 * Valid move if space is not occupied by another piece
-	 */
-	public boolean moveIsValid(GamePiece piece, int row, int column) {
-
-		return true;
-	}
-	
-	/** 
-	 * @return true if @param attacker is within attack range of @param defender
-	 */
-	public boolean canFight(GamePiece attacker, GamePiece defender) {
-		return false;
-	}
 	
 	/**
 	 * When the knight dies, it is as if the horse dies and it becomes a swordsman
