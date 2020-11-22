@@ -53,15 +53,14 @@ public class Game implements ActionListener{
 		for (int i = 0; i <= NUMSPACES-1; i++) {
 			if (e.getActionCommand().equals("MATRIX_BUTTON_" + i)) {
 				gameRun(i);
-				System.out.println(i);
-				
 			}
 			
 		}
 		if (e.getActionCommand().equals("NEXT_TURN")) {
-			action = "click";
-			isBlueTurn = !isBlueTurn;
-			gui.pieceButtons(board.getPositionsAndPieces(), isBlueTurn);
+			if (action.equals("click")) {
+				isBlueTurn = !isBlueTurn;
+				gui.pieceButtons(board.getPositionsAndPieces(), isBlueTurn);
+			}
 		}
 	}
 	
