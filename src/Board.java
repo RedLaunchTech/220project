@@ -226,7 +226,7 @@ public class Board {
 				if (index + (moveSpeed-colIndex) - width*rowIndex < 0) {
 					break;
 				}
-				if (index + (moveSpeed-colIndex) > width*height) {
+				if (index + (moveSpeed-colIndex) + 1 > width*height) { // line might be bugged, "+1" in if shouldn't be there? But only works if it is
 					break;
 				}
 				if (!positionsAndPieces.containsKey(index + (moveSpeed-colIndex) - width*rowIndex)) {
