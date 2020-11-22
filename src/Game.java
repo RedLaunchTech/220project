@@ -61,7 +61,7 @@ public class Game implements ActionListener{
 		if (e.getActionCommand().equals("NEXT_TURN")) {
 			action = "click";
 			isBlueTurn = !isBlueTurn;
-			
+			gui.pieceButtons(board.getPositionsAndPieces(), isBlueTurn);
 		}
 	}
 	

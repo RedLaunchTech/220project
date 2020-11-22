@@ -71,6 +71,7 @@ public class Gui  {
 			
 			button.addActionListener(o);
 			button.setActionCommand("MATRIX_BUTTON_" + i);
+			button.setEnabled(false);
 			i++;
 			gameMap.add(button);
 		}
@@ -187,6 +188,9 @@ public class Gui  {
 				}
 				else if (!isBlueTurn && (map.get(i).charAt(0) == 'r')){
 					gameBoard.get(i).setEnabled(true);
+				}
+				else {
+					gameBoard.get(i).setEnabled(false);
 				}
 				
 			}
