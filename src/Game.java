@@ -29,25 +29,21 @@ public class Game implements ActionListener{
 	
 	Gui gui;
 	
-	Map<Integer, String> map = new TreeMap<Integer, String>();
-	
-	
 	/**
 	 * Constructor for a new game instance
 	 */
 	public Game() {
-		map.put(0, "rArcher");
-		map.put(NUMSPACES-1, "bArcher");
-		map.put(9, "bArcher");
 		
 		board = new Board(ROWS, COLS);
+		board.initializeGame();
 		isBlueTurn = true;
 		
-		action = "click";
-		
 		gui = new Gui(this);
-		gui.placePieces(map);
+		gui.placePieces(board.getPositionsAndPieces(), isBlueTurn);
 		
+		System.out.println(board.getPositionsAndPieces());
+		
+		action = "click";
 		
 	}
 	
@@ -57,8 +53,15 @@ public class Game implements ActionListener{
 		for (int i = 0; i <= NUMSPACES-1; i++) {
 			if (e.getActionCommand().equals("MATRIX_BUTTON_" + i)) {
 				gameRun(i);
+				System.out.println(i);
 				
 			}
+			
+		}
+		if (e.getActionCommand().equals("NEXT_TURN")) {
+			action = "click";
+			isBlueTurn = !isBlueTurn;
+			
 		}
 	}
 	
@@ -68,14 +71,25 @@ public class Game implements ActionListener{
 	 */
 	public void gameRun(int userInput) {
 		
+		
+		
 		switch(action) {
 		case "click":
 			activePiece = userInput;
-			//gui.moveButtons(board.getMovable());
+			if (isBlueTurn) {
+				gui.setButtonColor(userInput, "blueSelect");
+			}
+			else {
+				gui.setButtonColor(userInput, "redSelect");
+			}
+			gui.moveButtons(board.availableActions(userInput));
+			System.out.println(board.availableActions(userInput));
 			action = "move";
 			break;
 		case "move":
 			secondPoint = userInput;
+			gui.placePieces(board.getPositionsAndPieces(), isBlueTurn);
+			action = "click";
 			break;
 		case "attack":
 			

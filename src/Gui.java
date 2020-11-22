@@ -45,6 +45,7 @@ public class Gui  {
 	
 	
 	ArrayList<JButton> gameBoard = new ArrayList<JButton>();
+	JButton turnButton;
 	
 	public Gui(ActionListener o) {
 		frame = new JFrame("This is a program");
@@ -82,10 +83,17 @@ public class Gui  {
 		gameMapTile.add(gameMap, BorderLayout.SOUTH);
 		
 		health = new JLabel("Piece Health: ", SwingConstants.LEFT);
+		turnButton = new JButton("Switch Turn");
+		turnButton.addActionListener(o);
+		turnButton.setActionCommand("NEXT_TURN");
+		turnButton.setVerticalAlignment(SwingConstants.BOTTOM);
 		
+		
+		turnButton.setBorder(BorderFactory.createLineBorder(Color.black));
 		
 		
 		statsMap.add(health);
+		statsMap.add(turnButton);
 		
 	
 		frame.add(gameMapTile, BorderLayout.EAST);
@@ -100,9 +108,27 @@ public class Gui  {
 		switch(name) {
 		case "Archer":
 			gameBoard.get(buttonNum).setIcon(new ImageIcon("gui/bow.png"));
+			gameBoard.get(buttonNum).setDisabledIcon(new ImageIcon("gui/bow.png"));
+			break;
+		case "Knight":
+			gameBoard.get(buttonNum).setIcon(new ImageIcon("gui/knight.png"));
+			gameBoard.get(buttonNum).setDisabledIcon(new ImageIcon("gui/knight.png"));
+			break;
+		case "Mage":
+			gameBoard.get(buttonNum).setIcon(new ImageIcon("gui/wizard.png"));
+			gameBoard.get(buttonNum).setDisabledIcon(new ImageIcon("gui/wizard.png"));
+			break;
+		case "Shieldbearer":
+			gameBoard.get(buttonNum).setIcon(new ImageIcon("gui/shieldbearer.png"));
+			gameBoard.get(buttonNum).setDisabledIcon(new ImageIcon("gui/shieldbearer.png"));
+			break;
+		case "Swordsman":
+			gameBoard.get(buttonNum).setIcon(new ImageIcon("gui/sword.png"));
+			gameBoard.get(buttonNum).setDisabledIcon(new ImageIcon("gui/sword.png"));
 			break;
 		case "Remove":
 			gameBoard.get(buttonNum).setIcon(null);
+			gameBoard.get(buttonNum).setDisabledIcon(null);
 			break;
 		}
 		;
@@ -116,33 +142,53 @@ public class Gui  {
 		case "blue":
 			gameBoard.get(buttonNum).setBackground(blue);
 			break;
+		case "redSelect":
+			gameBoard.get(buttonNum).setBackground(redSelect);
+			break;
+		case "blueSelect":
+			gameBoard.get(buttonNum).setBackground(blueSelect);
+			break;
+		case "move":
+			gameBoard.get(buttonNum).setBackground(moveAvailable);
+			break;
+		case "defualt":
+			gameBoard.get(buttonNum).setBackground(new JButton().getBackground());
 		}
 	}
 	
-	public void placePieces(Map map) {
-		for (int i = 0; i <= NUMSPACES-1; i++) {
+	public void placePieces(Map<Integer, String> map, boolean isBlueTurn) {
+		for (int i = 0; i < NUMSPACES; i++) {
 			String piece = (String) map.getOrDefault(i, "");
 			
 			if (piece.length() > 0) {
 				if (piece.charAt(0) == 'r') {
 					this.setButtonColor(i, "red");
 				}
-				else {
+				else if (piece.charAt(0) == 'b') {
 					this.setButtonColor(i, "blue");
 				}
 				
 				setCharacter(i, piece.substring(1, piece.length()));
 			}
+			else {
+				this.setButtonColor(i, "defualt");
+			}
 			
 		}
 		
-		this.pieceButtons(map);
+		this.pieceButtons(map, isBlueTurn);
 	}
 	
-	public void pieceButtons(Map map) {
-		for (int i = 0; i < NUMSPACES-1; i++) {
+	public void pieceButtons(Map<Integer, String> map , boolean isBlueTurn) {
+		for (int i = 0; i < NUMSPACES; i++) {
 			if (map.containsKey(i)) {
-				gameBoard.get(i).setEnabled(true);
+				if (isBlueTurn && (map.get(i).charAt(0) == 'b')) {
+					gameBoard.get(i).setEnabled(true);
+				}
+				else if (!isBlueTurn && (map.get(i).charAt(0) == 'r')){
+					gameBoard.get(i).setEnabled(true);
+				}
+				
 			}
 			else {
 				gameBoard.get(i).setEnabled(false);
@@ -151,10 +197,23 @@ public class Gui  {
 		}
 	}
 	
-	public void moveButtons(Map map) {
-		for (int i = 0; i < NUMSPACES-1; i++) {
-			if (map.containsKey(i)) {
-				gameBoard.get(i).setEnabled(true);
+	public void moveButtons(Map<Integer, String> map) {
+		for (int i = 0; i < NUMSPACES; i++) {
+
+			String input = map.getOrDefault(i, "");
+			
+			if (input.length() > 0) {
+				if (input.charAt(0) == 'm') {
+					gameBoard.get(i).setEnabled(true);
+					this.setButtonColor(i, "move");
+				}
+				else if (input.charAt(0) == 'h') {
+					gameBoard.get(i).setEnabled(true);
+					this.setButtonColor(i, "move");
+				}
+				else if (input.charAt(0) == 'a') {
+					
+				}
 				
 			}
 			else {
