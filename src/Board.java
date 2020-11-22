@@ -21,8 +21,12 @@ public class Board {
 		positionsAndPieces = new TreeMap();
 	}
 	
-	public TreeMap<Integer, GamePiece> getPositionsAndPieces() {
-		return positionsAndPieces;
+	public TreeMap<Integer, String> getPositionsAndPieces() {
+		TreeMap<Integer, String> positionsAndPieceTypes = new TreeMap();
+		for (Integer i : this.positionsAndPieces.keySet()) {
+			positionsAndPieceTypes.put(i, positionsAndPieces.get(i).getPieceType());
+		}
+		return positionsAndPieceTypes;
 	}
 	
 	/**
