@@ -1,16 +1,24 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.TreeMap;
 
+// comment
 public class Board {
 	private final int width;
 	private final int height;
+	private final ArrayList<String> PIECETYPES ;
 	private ArrayList<GamePiece> gamePieces;
-	private boolean [][] isOccupied;
+	private ArrayList<Integer> occupiedSpaces;
+	private TreeMap<Integer, GamePiece> positionsAndPieces;
 
 	public Board(int width, int height) {
 		this.width = width;
 		this.height = height;
+		PIECETYPES = new ArrayList<>(List.of("Archer","Assassin","Knight","Mage","Shieldbearer","Swordsman"));
 		gamePieces = new ArrayList<>();
-		// add isOccupied to constructor
+		occupiedSpaces = new ArrayList();
+		positionsAndPieces = new TreeMap();
 	}
 	
 	/**
@@ -19,43 +27,72 @@ public class Board {
 	public ArrayList<GamePiece> getGamePieces() {
 		return gamePieces;
 	}
+	
+	public void initializeGame() {
+		this.generateRoster(false);
+		this.generateRoster(true);
+		this.placePieces();
+	}
 
 	/**
 	 * Generates roster of pieces for the @param currPlayer
 	 */
-	public void generateRoster(boolean currPlayer) {
-		//do some things
-	}
-	
-	
-	public void setGamePieces(ArrayList<GamePiece> gamePieces) {
-		this.gamePieces = gamePieces;
+	private void generateRoster(boolean currPlayer) {
+		for (String s : PIECETYPES) {
+			if (s.equals("Archer")) {
+				Archer newPiece = new Archer(currPlayer);
+				gamePieces.add(newPiece);
+			}
+			if (s.equals("Assassin")) {
+				Assassin newPiece = new Assassin(currPlayer);
+				gamePieces.add(newPiece);
+			}
+			if (s.equals("Knight")) {
+				Knight newPiece = new Knight(currPlayer);
+				gamePieces.add(newPiece);
+			}
+			if (s.equals("Mage")) {
+				Mage newPiece = new Mage(currPlayer);
+				gamePieces.add(newPiece);
+			}
+			if (s.equals("Shieldbearer")) {
+				Mage newPiece = new Mage(currPlayer);
+				gamePieces.add(newPiece);
+			}
+			if (s.equals("Swordsman")) {
+				Swordsman newPiece = new Swordsman(currPlayer);
+				gamePieces.add(newPiece);
+			}
+		}
 	}
 
 	/**
-	 * Gives each game piece a position (row, column) on the board
+	 * Places the pieces as values in a map which ties them to their key of positions
 	 */
-	public void placePieces() {
-		Swordsman s1 = new Swordsman(0, 0, true);
-		Swordsman s2 = new Swordsman(9, 9, false);
-		gamePieces.add(s1);
-		gamePieces.add(s2);
+	private void placePieces() {
+		Integer blue = 0;
+		Integer red = 154;
+		for (GamePiece piece : gamePieces) {
+			if (piece.isBlueTeam) {
+				positionsAndPieces.put(blue, piece);
+				occupiedSpaces.add(blue);
+				++blue;
+			}
+			else {
+				positionsAndPieces.put(red, piece);
+				occupiedSpaces.add(red);
+				++red;
+			}
+		}
 	}
+
 	
 	/**
 	 * Removes a piece from the board
 	 * @param piece
 	 */
-	public void removePiece(GamePiece piece) {
-		int pieceRow = piece.getRow();
-		int pieceColumn = piece.getColumn();
-		
-		for (int i = 0; i < gamePieces.size(); ++i ) {
-			if (gamePieces.get(i).getRow() == pieceRow && gamePieces.get(i).getColumn() == pieceColumn) {
-				gamePieces.remove(i);
-			}
-		}
-		
+	public void removePiece(Integer i) {
+		positionsAndPieces.remove(i); 
 	}
 
 	/**
@@ -63,12 +100,7 @@ public class Board {
 	 * to ending coordinates @param endRow and @param endColumn
 	 */
 	public void movePiece(int startRow, int startColumn, int endRow, int endColumn) {
-		for (int i = 0; i < gamePieces.size(); ++i ) {
-			if (gamePieces.get(i).getRow() == startRow && gamePieces.get(i).getColumn() == startColumn) {
-				gamePieces.get(i).setRow(endRow);
-				gamePieces.get(i).setColumn(endColumn);
-			}
-		}
+
 	}
 	
 	/**
@@ -79,15 +111,28 @@ public class Board {
 	}
 	
 	/**
+	 * @param assassin deals extra damage if @param targer has no friendly pieces within its movement range
+	 */
+	// i don't know if this works, but if the attacker is an assassin this should happen
+	public void fight(Assassin assassin, GamePiece target) {
+		boolean isIsolated = false;
+		// TODO find if piece is isolated
+		
+		if(isIsolated) {
+			target.takeDamage((int)(assassin.dealDamage() * assassin.getSneakMultiplier()));
+		} else {
+			target.takeDamage(assassin.dealDamage());
+		}
+	}
+	
+	public TreeMap<Integer, String> availableActions(Integer i) {
+		return null;
+	}
+	/**
 	 * @return piece at @param row, @param column
 	 */
-	public GamePiece getPieceAt(int row, int column) {
-		for (GamePiece piece : gamePieces) {
-			if (piece.getRow() == row && piece.getColumn()== column) {
-				return piece;
-			}
-		}
-		return null;
+	public GamePiece getPieceAt(int i) {
+		return positionsAndPieces.get(i);
 	}
 	
 	/**
@@ -96,15 +141,7 @@ public class Board {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("Board is " + width + " by " + height + ".\n");
-		for (GamePiece piece : gamePieces) {
-			if (piece.isBlueTeam()) {
-				sb.append("Blue team has a piece at position " + piece.getRow() + ", " + piece.getColumn() + ".\n");
-			}
-			else {
-				sb.append("Red team has a piece at position " + piece.getRow() + ", " + piece.getColumn() + ".\n");
-			}
-		}
+
 		return sb.toString();
 	}
 	
@@ -113,9 +150,7 @@ public class Board {
 	 * Valid move if space is not occupied by another piece
 	 */
 	public boolean moveIsValid(GamePiece piece, int row, int column) {
-		if (isOccupied[row][column]) {
-			return false;
-		}
+
 		return true;
 	}
 	
@@ -125,5 +160,29 @@ public class Board {
 	public boolean canFight(GamePiece attacker, GamePiece defender) {
 		return false;
 	}
+	
+	/**
+	 * When the knight dies, it is as if the horse dies and it becomes a swordsman
+	 */
+	public void knightDeath(Knight knight) {
+
+	}
+	
+	/**
+	 * Increases the attack damage of a friendly @param target, target must be within attack range
+	 */
+	public void castBuff(Mage mage, GamePiece target) {
+		
+	}
+	
+	/**
+	 * Restores the hit points of a friendly @param target, target must be within attack range
+	 * Hit points cannot exceed than maxHitPoints
+	 */
+	public void castHeal(Mage mage, GamePiece target) {
+		
+	}
+	
+	
 	
 }
