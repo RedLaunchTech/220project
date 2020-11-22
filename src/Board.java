@@ -159,7 +159,7 @@ public class Board {
 					availableActions.put(index+i, sb.toString());
 				}
 				else {
-					availableActions.put(index+i, "");
+					availableActions.put(index+i, "m");
 				}
 			}
 		}
