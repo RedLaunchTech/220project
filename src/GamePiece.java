@@ -116,7 +116,7 @@ public abstract class GamePiece {
 	 * Piece takes damage, health points reduced by @param damage
 	 */
 	public void takeDamage(int damage) {
-		
+		this.hitPoints -= damage;
 	}
 
 	/**
