@@ -140,10 +140,10 @@ public class Board {
 		int moveSpeed = piece.getMoveSpeed();
 		int checks = (moveSpeed*4 + (moveSpeed-1)*4);
 		for (int i = 0; i < moveSpeed; ++i) {
-			if ((index + i) % width == 0) {
+			if ((index + i +1) % width == 0) {
 				break;
 			}
-			else if ((index + i) > (width*height)) {
+			else if ((index + i +1) > (width*height)) {
 				break;
 			}
 			else {
