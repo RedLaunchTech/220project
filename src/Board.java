@@ -148,18 +148,18 @@ public class Board {
 			}
 			else {
 				StringBuilder sb = new StringBuilder();
-				if (positionsAndPieces.containsKey(index+i)) {
-					if (isFriend(index, index+i) && piece.getPieceType() == "Mage") {
+				if (positionsAndPieces.containsKey(index+i+1)) {
+					if (isFriend(index, index+i+1) && piece.getPieceType() == "Mage") {
 						sb.append("h");
 					}
-					else if (!isFriend(index, index+i)) {
+					else if (!isFriend(index, index+i+1)) {
 						sb.append("a");
 					}
-					sb.append(positionsAndPieces.get(index+i).formatName());
-					availableActions.put(index+i, sb.toString());
+					sb.append(positionsAndPieces.get(index+i+1).formatName());
+					availableActions.put(index+i+1, sb.toString());
 				}
 				else {
-					availableActions.put(index+i, "m");
+					availableActions.put(index+i+1, "m");
 				}
 			}
 		}
