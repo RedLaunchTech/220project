@@ -24,7 +24,7 @@ public class Board {
 	public TreeMap<Integer, String> getPositionsAndPieces() {
 		TreeMap<Integer, String> positionsAndPieceTypes = new TreeMap();
 		for (Integer i : this.positionsAndPieces.keySet()) {
-			positionsAndPieceTypes.put(i, positionsAndPieces.get(i).getPieceType());
+			positionsAndPieceTypes.put(i, positionsAndPieces.get(i).formatName());
 		}
 		return positionsAndPieceTypes;
 	}
@@ -79,7 +79,7 @@ public class Board {
 	 */
 	private void placePieces() {
 		Integer blue = 0;
-		Integer red = 154;
+		Integer red = 144;
 		for (GamePiece piece : gamePieces) {
 			if (piece.isBlueTeam) {
 				positionsAndPieces.put(blue, piece);
