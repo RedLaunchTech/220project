@@ -53,6 +53,7 @@ public class Game implements ActionListener{
 		for (int i = 0; i <= NUMSPACES-1; i++) {
 			if (e.getActionCommand().equals("MATRIX_BUTTON_" + i)) {
 				gameRun(i);
+				System.out.println(i);
 			}
 			
 		}
@@ -81,18 +82,20 @@ public class Game implements ActionListener{
 			else {
 				gui.setButtonColor(userInput, "redSelect");
 			}
-			gui.moveButtons(board.availableActions(userInput));
+			gui.moveButtons(board.availableActions(userInput), activePiece);
 			System.out.println(board.availableActions(userInput));
-			action = "move";
+			action = "action";
 			break;
-		case "move":
+		case "action":
+			if (userInput == activePiece) {
+				gui.placePieces(board.getPositionsAndPieces(), isBlueTurn);
+				
+			}
 			secondPoint = userInput;
 			gui.placePieces(board.getPositionsAndPieces(), isBlueTurn);
 			action = "click";
 			break;
-		case "attack":
-			
-			break;
+		
 		}
 		
 		

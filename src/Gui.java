@@ -84,17 +84,20 @@ public class Gui  {
 		gameMapTile.add(gameMap, BorderLayout.SOUTH);
 		
 		health = new JLabel("Piece Health: ", SwingConstants.LEFT);
+		health.setVerticalAlignment(SwingConstants.TOP);
 		turnButton = new JButton("Switch Turn");
 		turnButton.addActionListener(o);
 		turnButton.setActionCommand("NEXT_TURN");
 		turnButton.setVerticalAlignment(SwingConstants.BOTTOM);
+		turnButton.setSize(new Dimension(180, 100));
 		
 		
-		turnButton.setBorder(BorderFactory.createLineBorder(Color.black));
+		//turnButton.setBorder(BorderFactory.createLineBorder(Color.black));
 		
+		statsMap.setLayout(new BorderLayout());
 		
-		statsMap.add(health);
-		statsMap.add(turnButton);
+		statsMap.add(health, BorderLayout.NORTH);
+		statsMap.add(turnButton, BorderLayout.SOUTH);
 		
 	
 		frame.add(gameMapTile, BorderLayout.EAST);
@@ -199,9 +202,11 @@ public class Gui  {
 			}
 			
 		}
+		
+		
 	}
 	
-	public void moveButtons(Map<Integer, String> map) {
+	public void moveButtons(Map<Integer, String> map, int self) {
 		for (int i = 0; i < NUMSPACES; i++) {
 
 			String input = map.getOrDefault(i, "");
@@ -225,6 +230,7 @@ public class Gui  {
 			}
 			
 		}
+		gameBoard.get(self).setEnabled(true);
 	}
 	
 	
