@@ -145,8 +145,9 @@ public class Board {
 		int moveSpeed = piece.getMoveSpeed();
 		int checks = (moveSpeed*4 + (moveSpeed-1)*4);
 		
+		// right
 		for (int i = 0; i < moveSpeed; ++i) {
-			if ((index + i +1) % width == 0) {
+			if ((index + i + 1) % width == 0) {
 				break;
 			}
 			else if ((index + i +1) > (width*height)) {
@@ -154,11 +155,12 @@ public class Board {
 			}
 			else {
 				if (!positionsAndPieces.containsKey(index+i+1)) {
-					availableMoves.put(index+i+1, "m");
+					availableMoves.put(index+i+1, "m right");
 				}
 			}
 		}
 		
+		// left
 		for (int i = 0; i < moveSpeed; ++i) {
 			if ((index - (i+1)) % width == 14) {
 				break;
@@ -168,117 +170,131 @@ public class Board {
 			}
 			else {
 				if (!positionsAndPieces.containsKey(index - (i+1))) {
-					availableMoves.put(index - (i+1), "m");
+					availableMoves.put(index - (i+1), "m left");
 				}
 			}
 		}
 		
+		// down
 		for (int i = 0; i < moveSpeed; ++i) {
 			if ((index + (i+1)*width) > (width*height)) {
 				break;
 			}
 			else {
 				if (!positionsAndPieces.containsKey(index + (i+1)*width)) {
-					availableMoves.put(index + (i+1)*width, "m");
+					availableMoves.put(index + (i+1)*width, "m down");
 				}
 			}
 		}
 		
+		// up
 		for (int i = 0; i < moveSpeed; ++i) {
 			if ((index - (i+1)*width) < 0) {
 				break;
 			}
 			else {
 				if (!positionsAndPieces.containsKey(index - (i+1)*width)) {
-					availableMoves.put(index - (i+1)*width, "m");
+					availableMoves.put(index - (i+1)*width, "m up");
 				}
 			}
 		}
 		
-		int colIndex = 1;
+		int colIndex = moveSpeed - 1;
 		int rowIndex;
-		while (colIndex != moveSpeed) {
+		
+		// down and right
+		while (colIndex != 0) {
 			rowIndex = colIndex;
-			if (index + (moveSpeed-colIndex) + width*rowIndex % 15 == 0) {
+			if ((index + (moveSpeed-colIndex) + width*rowIndex) % 15 == 0) {
 				break;
 			}
 			
 			while (rowIndex != 0) {
 				if (index + (moveSpeed-colIndex) + width*rowIndex > width*height) {
-					break;
+					--rowIndex;
+					continue;
 				}
 				if (!positionsAndPieces.containsKey(index + (moveSpeed-colIndex) + width*rowIndex)) {
-					availableMoves.put(index + (moveSpeed-colIndex) + width*rowIndex, "m");
+					availableMoves.put(index + (moveSpeed-colIndex) + width*rowIndex, "m down right");
 				}
 				--rowIndex;
 			}
-			++colIndex;
+			--colIndex;
 		}
 		
-		colIndex = 1;
-		while (colIndex != moveSpeed) {
+		colIndex = moveSpeed - 1;
+		
+		// up and right
+		while (colIndex != 0) {
 			rowIndex = colIndex;
-			if (index + (moveSpeed-colIndex) - width*rowIndex % 15 == 0) {
+			if ((index + (moveSpeed-colIndex) - width*rowIndex) % 15 == 0) {
 				break;
 			}
 			
 			while (rowIndex != 0) {
 				if (index + (moveSpeed-colIndex) - width*rowIndex < 0) {
-					break;
+					--rowIndex;
+					continue;
 				}
 				if (index + (moveSpeed-colIndex) + 1 > width*height) { // line might be bugged, "+1" in if shouldn't be there? But only works if it is
 					break;
 				}
 				if (!positionsAndPieces.containsKey(index + (moveSpeed-colIndex) - width*rowIndex)) {
-					availableMoves.put(index + (moveSpeed-colIndex) - width*rowIndex, "m");
+					availableMoves.put(index + (moveSpeed-colIndex) - width*rowIndex, "m up right");
 				}
 				
 				--rowIndex;
 			}
-			++colIndex;
+			--colIndex;
 		}
 		
-		colIndex = 1;
-		while (colIndex != moveSpeed) {
+		colIndex = moveSpeed - 1;
+		
+		// down and left
+		while (colIndex != 0) {
 			rowIndex = colIndex;
-			if (index - (moveSpeed-colIndex) + width*rowIndex % 15 == 14) {
+			if ((index - (moveSpeed-colIndex) + width*rowIndex) % 15 == 14) {
 				break;
 			}
 			
 			while (rowIndex != 0) {
 				if (index - (moveSpeed-colIndex) + width*rowIndex > width*height) {
-					break;
+					--rowIndex;
+					continue;
 				}
 				if (index - (moveSpeed - colIndex) < 0) {
 					break;
 				}
 				if (!positionsAndPieces.containsKey(index - (moveSpeed-colIndex) + width*rowIndex)) {
-					availableMoves.put(index - (moveSpeed-colIndex) + width*rowIndex, "m");
+					availableMoves.put(index - (moveSpeed-colIndex) + width*rowIndex, "m down left");
 				}
 				
 				--rowIndex;
 			}
-			++colIndex;
+			--colIndex;
 		}
 		
-		colIndex = 1;
-		while (colIndex != moveSpeed) {
+		colIndex = moveSpeed - 1;
+		
+		// up and left
+		while (colIndex != 0) {
 			rowIndex = colIndex;
-			if (index - (moveSpeed-colIndex) - width*rowIndex % 15 == 14) {
+			if ((index - (moveSpeed-colIndex) - width*rowIndex) % 15 == 14) {
 				break;
 			}
 			
 			while (rowIndex != 0) {
 				if (index - (moveSpeed-colIndex) - width*rowIndex < 0) {
-					break;
+					--rowIndex;
+					continue;
 				}
 				if (!positionsAndPieces.containsKey(index - (moveSpeed-colIndex) - width*rowIndex)) {
-					availableMoves.put(index - (moveSpeed-colIndex) - width*rowIndex, "m");
+					availableMoves.put(index - (moveSpeed-colIndex) - width*rowIndex, "m up left");
 				}
 				
 				--rowIndex;
 			}
-			++colIndex;
+			--colIndex;
 		}
 		
 		return  availableMoves;
