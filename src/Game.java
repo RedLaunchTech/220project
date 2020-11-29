@@ -113,14 +113,14 @@ public class Game implements ActionListener{
 			//heal
 			else if (board.availableActions(activePiece).get((Integer) secondPoint).charAt(0)=='h') {
 				board.castHeal((Integer) activePiece, (Integer) secondPoint);
-				board.getPieceAt(activePiece).canMove(false);;
+				board.getPieceAt(activePiece).canMove(false);
 			}
 			//move
 			else if (board.availableActions(activePiece).get((Integer) secondPoint).charAt(0)=='m') {
 				
 				board.movePiece((Integer) activePiece, (Integer) secondPoint);
 				System.out.println("Piece moved");
-				board.getPieceAt(secondPoint).canMove(false);;
+				board.getPieceAt(secondPoint).canMove(false);
 				
 			}
 			gui.placePieces(board.getPositionsAndPieces(), isBlueTurn);
