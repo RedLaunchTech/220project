@@ -89,13 +89,13 @@ public class Game implements ActionListener{
 			gui.moveButtons(board.availableActions(userInput), activePiece);
 			gui.setStats(board.getPieceAt(userInput));
 			
-//			if (board.getPieceAt(activePiece).isMoveable()) {
-//				action = "action";
-//			}
-//			else {
-//				gui.placePieces(board.getPositionsAndPieces(), isBlueTurn);
-//			}
-			action = "action";
+			if (board.getPieceAt(activePiece).isMoveable()) {
+				action = "action";
+			}
+			else {
+				gui.placePieces(board.getPositionsAndPieces(), isBlueTurn);
+			}
+			//action = "action";
 			
 			
 			break;
@@ -108,6 +108,7 @@ public class Game implements ActionListener{
 			else {
 				board.movePiece((Integer)activePiece, (Integer) secondPoint);
 				System.out.println("Piece moved");
+				board.getPieceAt(secondPoint).canMove(false);;
 			}
 			gui.placePieces(board.getPositionsAndPieces(), isBlueTurn);
 			gui.clearStats();
