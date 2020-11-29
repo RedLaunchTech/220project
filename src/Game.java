@@ -45,7 +45,7 @@ public class Game implements ActionListener{
 		
 		action = "click";
 		
-		this.makePiecesPlayabel();
+		this.makePiecesPlayable();
 		
 	}
 	
@@ -64,7 +64,7 @@ public class Game implements ActionListener{
 				isBlueTurn = !isBlueTurn;
 				gui.pieceButtons(board.getPositionsAndPieces(), isBlueTurn);
 				gui.updateTeam(isBlueTurn);
-				this.makePiecesPlayabel();
+				this.makePiecesPlayable();
 			}
 		}
 	}
@@ -88,6 +88,7 @@ public class Game implements ActionListener{
 			}
 			gui.moveButtons(board.availableActions(userInput), activePiece);
 			gui.setStats(board.getPieceAt(userInput));
+			System.out.println(board.availableActions(userInput));
 			
 			if (board.getPieceAt(activePiece).isMoveable()) {
 				action = "action";
@@ -105,10 +106,16 @@ public class Game implements ActionListener{
 				gui.placePieces(board.getPositionsAndPieces(), isBlueTurn);
 				
 			}
-			else {
-				board.movePiece((Integer)activePiece, (Integer) secondPoint);
+			else if (board.availableActions(activePiece).get((Integer) secondPoint).charAt(0)=='a') {
+				
+			}
+			
+			else if (board.availableActions(activePiece).get((Integer) secondPoint).charAt(0)=='m') {
+				
+				board.movePiece((Integer) activePiece, (Integer) secondPoint);
 				System.out.println("Piece moved");
 				board.getPieceAt(secondPoint).canMove(false);;
+				
 			}
 			gui.placePieces(board.getPositionsAndPieces(), isBlueTurn);
 			gui.clearStats();
@@ -134,7 +141,7 @@ public class Game implements ActionListener{
 		return false;
 	}
 	
-	private void makePiecesPlayabel() {
+	private void makePiecesPlayable() {
 		for(int i = 0; i < NUMSPACES; i++) {
 			GamePiece unit = board.getPieceAt(i);
 			if (!(unit == null)) {
