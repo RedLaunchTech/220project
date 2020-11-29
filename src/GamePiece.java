@@ -115,7 +115,7 @@ public abstract class GamePiece {
 	/**
 	 * @return isMovable if the piece can still be moved this turn
 	 */
-	public boolean isMovable() {
+	public boolean isMoveable() {
 		return isMovable;
 	}
 	
