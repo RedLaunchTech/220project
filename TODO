@@ -1,0 +1,14 @@
+TODO:
+
+Game:
+Implement action methods in board using gui
+Who has won methods
+
+Gui:
+Turn indicator
+Complete setStats
+
+Board:
+Write getInteractions to let pieces interact
+Finish knightDeath, castBuff, castHeal
+Finish fight
