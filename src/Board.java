@@ -107,8 +107,14 @@ public class Board {
 	 * Changes the position of a game piece using starting coordinates @param startRow and @param startColumn
 	 * to ending coordinates @param endRow and @param endColumn
 	 */
-	public void movePiece(int startRow, int startColumn, int endRow, int endColumn) {
-
+	public void movePiece(Integer startPosition, Integer endPosition) {
+		for (Integer i : positionsAndPieces.keySet()) {
+			if (i == startPosition) {
+				GamePiece value = positionsAndPieces.get(i);
+				positionsAndPieces.put(endPosition, value);
+				positionsAndPieces.remove(i);
+			}
+		}
 	}
 	
 	/**
