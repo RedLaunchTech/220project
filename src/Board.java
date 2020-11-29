@@ -220,7 +220,7 @@ public class Board {
 		
 		// left
 		for (int i = 0; i < moveSpeed; ++i) {
-			if ((index - (i+1)) % width == 14) {
+			if ((index - (i+1)) % width == width-1) {
 				break;
 			}
 			else if ((index - (i +1)) < 0) {
@@ -311,7 +311,7 @@ public class Board {
 		// down and left
 		while (colIndex != 0) {
 			rowIndex = colIndex;
-			if ((index - (moveSpeed-colIndex) + width*rowIndex) % 15 == 14) {
+			if ((index - (moveSpeed-colIndex) + width*rowIndex) % 15 == width-1) {
 				break;
 			}
 			
@@ -337,7 +337,7 @@ public class Board {
 		// up and left
 		while (colIndex != 0) {
 			rowIndex = colIndex;
-			if ((index - (moveSpeed-colIndex) - width*rowIndex) % 15 == 14) {
+			if ((index - (moveSpeed-colIndex) - width*rowIndex) % 15 == width-1) {
 				break;
 			}
 			
@@ -385,7 +385,7 @@ public class Board {
 		
 		// left
 		for (int i = 0; i < attackRange; ++i) {
-			if ((index - (i + 1)) % width == 14) {
+			if ((index - (i + 1)) % width == width-1) {
 				break;
 			} else if ((index - (i + 1)) < 0) {
 				break;
@@ -509,7 +509,7 @@ public class Board {
 		// down and left
 		while (colIndex != 0) {
 			rowIndex = colIndex;
-			if ((index - (attackRange - colIndex) + width * rowIndex) % 15 == 14) {
+			if ((index - (attackRange - colIndex) + width * rowIndex) % 15 == width-1) {
 				break;
 			}
 
@@ -542,7 +542,7 @@ public class Board {
 		// up and left
 		while (colIndex != 0) {
 			rowIndex = colIndex;
-			if ((index - (attackRange-colIndex) - width*rowIndex) % 15 == 14) {
+			if ((index - (attackRange-colIndex) - width*rowIndex) % 15 == width-1) {
 				break;
 			}
 			
