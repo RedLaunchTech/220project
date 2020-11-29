@@ -568,9 +568,6 @@ public class Board {
 	public void castHeal(Mage mage, GamePiece target) {
 		
 	}
-	
-	
-	
 }
 
 
