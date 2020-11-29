@@ -565,6 +565,9 @@ public class Board {
 	 */
 	public void castHeal(Integer healer, Integer healee) {
 		positionsAndPieces.get(healee).setHitPoints((positionsAndPieces.get(healee).getHitPoints() + ((Mage)positionsAndPieces.get(healer)).heal()));
+		if (positionsAndPieces.get(healee).getHitPoints() > positionsAndPieces.get(healee).getMaxHitPoints()) {
+			positionsAndPieces.get(healee).setHitPoints(positionsAndPieces.get(healee).getMaxHitPoints());
+		}
 	}
 }
 
