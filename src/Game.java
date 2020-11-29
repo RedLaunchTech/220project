@@ -40,7 +40,7 @@ public class Game implements ActionListener{
 		
 		gui = new Gui(this);
 		gui.placePieces(board.getPositionsAndPieces(), isBlueTurn);
-		
+		gui.updateTeam(isBlueTurn);
 		System.out.println(board.getPositionsAndPieces());
 		
 		action = "click";
@@ -61,6 +61,7 @@ public class Game implements ActionListener{
 			if (action.equals("click")) {
 				isBlueTurn = !isBlueTurn;
 				gui.pieceButtons(board.getPositionsAndPieces(), isBlueTurn);
+				gui.updateTeam(isBlueTurn);
 			}
 		}
 	}
@@ -83,6 +84,7 @@ public class Game implements ActionListener{
 				gui.setButtonColor(userInput, "redSelect");
 			}
 			gui.moveButtons(board.availableActions(userInput), activePiece);
+			gui.setStats(board.getPieceAt(userInput));
 			System.out.println(board.availableActions(userInput));
 			action = "action";
 			break;
@@ -92,30 +94,16 @@ public class Game implements ActionListener{
 				
 			}
 			secondPoint = userInput;
+			board.movePiece((Integer)activePiece, (Integer) secondPoint);
+			System.out.println("Piece moved");
 			gui.placePieces(board.getPositionsAndPieces(), isBlueTurn);
+			gui.clearStats();
 			action = "click";
 			break;
 		
 		}
 		
 		
-	}
-
-	private ArrayList<GamePiece> generateRoster() {
-		return null;
-	}
-	
-	/**
-	 * Prints the menu of move options to the player
-	 */
-	private void printMenu() {
-		System.out.println("Actions:");
-		System.out.println("1) MOVE");
-		System.out.println("2) ATTACK");
-		System.out.println("3) VIEW BOARD");
-		System.out.println("4) SHOW STATS");
-		System.out.println("5) PASS");
-		System.out.println();
 	}
 	
 	/**
