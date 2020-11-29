@@ -85,8 +85,16 @@ public class Game implements ActionListener{
 			}
 			gui.moveButtons(board.availableActions(userInput), activePiece);
 			gui.setStats(board.getPieceAt(userInput));
-			System.out.println(board.availableActions(userInput));
+			
+			if (board.getPieceAt(activePiece).isMoveable()) {
+				action = "action";
+			}
+			else {
+				gui.placePieces(board.getPositionsAndPieces(), isBlueTurn);
+			}
+			
 			action = "action";
+			
 			break;
 		case "action":
 			if (userInput == activePiece) {

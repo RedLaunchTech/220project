@@ -10,6 +10,7 @@ public abstract class GamePiece {
 	protected int moveSpeed;
 	protected double critChance;
 	protected String pieceType;
+	protected boolean isMovable;
 	
 	/**
 	 * Constructor for abstract GamePiece.
@@ -103,6 +104,19 @@ public abstract class GamePiece {
 	 */
 	public String getPieceType() {
 		return pieceType;
+	}
+	
+	/**
+	 * Set isMovable with @param isMovable
+	 */
+	public void canMove(boolean isMovable) {
+		this.isMovable = isMovable;
+	}
+	/**
+	 * @return isMovable if the piece can still be moved this turn
+	 */
+	public boolean isMoveable() {
+		return isMovable;
 	}
 	
 	/**
