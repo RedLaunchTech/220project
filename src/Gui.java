@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.DebugGraphics;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -41,7 +42,11 @@ public class Gui  {
 	
 	JLabel label;
 	JLabel topStats;
+	JLabel currentTeam;
+	JLabel type;
 	JLabel health;
+	JLabel damage;
+	JLabel critChance;
 	
 	
 	ArrayList<JButton> gameBoard = new ArrayList<JButton>();
@@ -83,21 +88,31 @@ public class Gui  {
 		gameMap.setPreferredSize(new Dimension(SQUARE_SIZE*COLS,SQUARE_SIZE*ROWS));
 		gameMapTile.add(gameMap, BorderLayout.SOUTH);
 		
-		health = new JLabel("Piece Health: ", SwingConstants.LEFT);
+		currentTeam = new JLabel("");
+		
+		type = new JLabel("Unit Type: ", SwingConstants.LEFT);
+		type.setVerticalAlignment(SwingConstants.TOP);
+		health = new JLabel("Unit Health: ", SwingConstants.LEFT);
 		health.setVerticalAlignment(SwingConstants.TOP);
+		damage = new JLabel("Unit damage: ", SwingConstants.LEFT);
+		damage.setVerticalAlignment(SwingConstants.TOP);
+		critChance = new JLabel("Unit Critical Chance: ", SwingConstants.LEFT);
+		critChance.setVerticalAlignment(SwingConstants.TOP);
+		
 		turnButton = new JButton("Switch Turn");
 		turnButton.addActionListener(o);
 		turnButton.setActionCommand("NEXT_TURN");
 		turnButton.setVerticalAlignment(SwingConstants.BOTTOM);
 		turnButton.setSize(new Dimension(180, 100));
 		
+		statsMap.setLayout(new BoxLayout(statsMap, BoxLayout.Y_AXIS));
 		
-		//turnButton.setBorder(BorderFactory.createLineBorder(Color.black));
-		
-		statsMap.setLayout(new BorderLayout());
-		
-		statsMap.add(health, BorderLayout.NORTH);
-		statsMap.add(turnButton, BorderLayout.SOUTH);
+		statsMap.add(currentTeam);
+		statsMap.add(type);
+		statsMap.add(health);
+		statsMap.add(damage);
+		statsMap.add(critChance);
+		statsMap.add(turnButton);
 		
 	
 		frame.add(gameMapTile, BorderLayout.EAST);
@@ -135,7 +150,6 @@ public class Gui  {
 			gameBoard.get(buttonNum).setDisabledIcon(null);
 			break;
 		}
-		;
 	}
 	
 	public void setButtonColor(int buttonNum, String color) {
@@ -220,6 +234,8 @@ public class Gui  {
 					gameBoard.get(i).setEnabled(true);
 					this.setButtonColor(i, "move");
 				}
+				
+				//TO FINNISH
 				else if (input.charAt(0) == 'a') {
 					
 				}
@@ -234,11 +250,28 @@ public class Gui  {
 	}
 	
 	
+	public void setStats(GamePiece g) {
+		type.setText("Unit type: " + g.getPieceType());
+		health.setText("Unit Health: " + g.getHitPoints());
+		damage.setText("Unit damage: " + g.getAttackDamage());
+		critChance.setText("Unit Critical Chance: " + g.getCritChance()*100);
+		g.getHitPoints();
+	}
 	
+	public void clearStats() {
+		type.setText("Unit type:");
+		health.setText("Unit Health:");
+		damage.setText("Unit damage:");
+		critChance.setText("Unit Critical Chance:");
+	}
 	
-//	public static void main(String[] args) {
-//		new Gui();
-//	}
-
+	public void updateTeam(boolean isBlue) {
+		if (isBlue) {
+			currentTeam.setText("It is blue's turn");
+		}
+		else {
+			currentTeam.setText("It is red's turn");
+		}
+	}
 
 }
