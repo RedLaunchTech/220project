@@ -121,8 +121,8 @@ public class Board {
 	/**
 	 * Two pieces "fight". The @param attacker deals damage to the @param defender.
 	 */
-	public void fight(GamePiece attacker, GamePiece defender) {
-		defender.takeDamage(attacker.dealDamage());
+	public void fight(Integer attacker, Integer attackee) {
+		positionsAndPieces.get(attackee).takeDamage(positionsAndPieces.get(attacker).dealDamage());
 	}
 	
 	/**
@@ -565,8 +565,8 @@ public class Board {
 	 * Restores the hit points of a friendly @param target, target must be within attack range
 	 * Hit points cannot exceed than maxHitPoints
 	 */
-	public void castHeal(Mage mage, GamePiece target) {
-		
+	public void castHeal(Integer healer, Integer healee) {
+		positionsAndPieces.get(healee).setHitPoints((positionsAndPieces.get(healee).getHitPoints() + ((Mage)positionsAndPieces.get(healer)).heal()));
 	}
 }
 
