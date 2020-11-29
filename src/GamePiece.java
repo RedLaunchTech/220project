@@ -106,9 +106,15 @@ public abstract class GamePiece {
 		return pieceType;
 	}
 	
+	/**
+	 * Set isMovable with @param isMovable
+	 */
 	public void canMove(boolean isMovable) {
 		this.isMovable = isMovable;
 	}
+	/**
+	 * @return isMovable if the piece can still be moved this turn
+	 */
 	public boolean isMovable() {
 		return isMovable;
 	}
