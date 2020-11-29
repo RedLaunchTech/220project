@@ -145,6 +145,10 @@ public class Gui  {
 			gameBoard.get(buttonNum).setIcon(new ImageIcon("gui/sword.png"));
 			gameBoard.get(buttonNum).setDisabledIcon(new ImageIcon("gui/sword.png"));
 			break;
+		case "Assassin":
+			gameBoard.get(buttonNum).setIcon(new ImageIcon("gui/assassin.png"));
+			gameBoard.get(buttonNum).setDisabledIcon(new ImageIcon("gui/assassin.png"));
+			break;
 		case "Remove":
 			gameBoard.get(buttonNum).setIcon(null);
 			gameBoard.get(buttonNum).setDisabledIcon(null);
