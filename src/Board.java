@@ -120,7 +120,12 @@ public class Board {
 	public void fight(Integer attacker, Integer attackee) {
 		positionsAndPieces.get(attackee).takeDamage(positionsAndPieces.get(attacker).dealDamage());
 		if (!positionsAndPieces.get(attackee).isAlive()) {
-			this.removePiece(attackee);
+			if (positionsAndPieces.get(attackee).getPieceType().equals("Knight")) {
+				knightDeath(attackee, positionsAndPieces.get(attackee).isBlueTeam());
+			}
+			else {
+				this.removePiece(attackee);
+			}
 		}
 	}
 	
@@ -528,28 +533,21 @@ public class Board {
 			return false;
 		}
 	}
+
 	/**
 	 * @return piece at @param row, @param column
 	 */
 	public GamePiece getPieceAt(int i) {
 		return positionsAndPieces.get(i);
 	}
-	
-	/**
-	 * @return string representation of the board and the pieces on the board
-	 */
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		return sb.toString();
-	}
-	
+
 	
 	/**
 	 * When the knight dies, it is as if the horse dies and it becomes a swordsman
 	 */
-	public void knightDeath(Knight knight) {
-
+	public void knightDeath(Integer i, boolean team) {
+		Swordsman swordman = new Swordsman(team);
+		positionsAndPieces.put(i, swordman);
 	}
 	
 	/**
