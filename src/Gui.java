@@ -166,6 +166,12 @@ public class Gui  {
 		case "blueSelect":
 			gameBoard.get(buttonNum).setBackground(blueSelect);
 			break;
+		case "moveAvailableBlue":
+			gameBoard.get(buttonNum).setBackground(moveAvailableBlue);
+			break;
+		case "moveAvailableRed":
+			gameBoard.get(buttonNum).setBackground(moveAvailableRed);
+			break;
 		case "move":
 			gameBoard.get(buttonNum).setBackground(moveAvailable);
 			break;
@@ -233,7 +239,21 @@ public class Gui  {
 				}
 				else if (input.charAt(0) == 'h') {
 					gameBoard.get(i).setEnabled(true);
-					this.setButtonColor(i, "move");
+					if (input.charAt(1) == 'b') {
+						this.setButtonColor(i, "moveAvailableBlue");
+					}
+					else if (input.charAt(1) == 'r') {
+						this.setButtonColor(i, "moveAvailableRed");
+					}
+				}
+				else if (input.charAt(0) == 'a') {
+					gameBoard.get(i).setEnabled(true);
+					if (input.charAt(1) == 'b') {
+						this.setButtonColor(i, "moveAvailableBlue");
+					}
+					else if (input.charAt(1) == 'r') {
+						this.setButtonColor(i, "moveAvailableRed");
+					}
 				}
 				
 				//TO FINNISH
