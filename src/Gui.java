@@ -236,7 +236,7 @@ public class Gui  {
 					if (input.charAt(1) == 'b') {
 						this.setButtonColor(i, "blueSelect");
 					}
-					else {
+					else if (input.charAt(1) == 'r') {
 						this.setButtonColor(i, "redSelect");
 					}
 					

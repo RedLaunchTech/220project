@@ -113,6 +113,7 @@ public class Game implements ActionListener{
 			//heal
 			else if (board.availableActions(activePiece).get((Integer) secondPoint).charAt(0)=='h') {
 				board.castHeal((Integer) activePiece, (Integer) secondPoint);
+				board.getPieceAt(activePiece).canMove(false);;
 			}
 			//move
 			else if (board.availableActions(activePiece).get((Integer) secondPoint).charAt(0)=='m') {
