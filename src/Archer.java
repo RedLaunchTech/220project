@@ -15,13 +15,4 @@ public class Archer extends GamePiece {
 		critChance = 0.2;
 		pieceType = "Archer";
 	}
-
-	/**
-	 * Archer can deal damage at range
-	 */
-	@Override
-	public int dealDamage() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }
