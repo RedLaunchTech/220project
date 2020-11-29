@@ -10,7 +10,7 @@ public class Assassin extends GamePiece {
 		super(isBlueTeam);
 		maxHitPoints = 10;
 		hitPoints = maxHitPoints;
-		attackDamage = 10;
+		attackDamage = 8;
 		attackRange = 1;
 		moveSpeed = 3;
 		critChance = 0.2;
