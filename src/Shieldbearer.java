@@ -6,7 +6,7 @@ public class Shieldbearer extends GamePiece {
 	 * Constructor for a shieldbearer at position @param row, @param column and team @param isBlueTeam
 	 * Shieldbearer has preset stats.
 	 */
-	public Shieldbearer(int row, int column, boolean isBlueTeam) {
+	public Shieldbearer(boolean isBlueTeam) {
 		super(isBlueTeam);
 	}
 
