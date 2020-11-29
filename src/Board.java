@@ -113,6 +113,7 @@ public class Board {
 				GamePiece value = positionsAndPieces.get(i);
 				positionsAndPieces.put(endPosition, value);
 				positionsAndPieces.remove(i);
+				break;
 			}
 		}
 	}
@@ -149,7 +150,6 @@ public class Board {
 		TreeMap<Integer, String> availableMoves = new TreeMap();
 		GamePiece piece = this.getPieceAt(index);
 		int moveSpeed = piece.getMoveSpeed();
-		int checks = (moveSpeed*4 + (moveSpeed-1)*4);
 		
 		// right
 		for (int i = 0; i < moveSpeed; ++i) {
@@ -306,6 +306,73 @@ public class Board {
 		return  availableMoves;
 	}
 	
+	private TreeMap<Integer, String> getInteractions(Integer index) {
+		TreeMap<Integer, String> availableInteractions = new TreeMap();
+		GamePiece piece = this.getPieceAt(index);
+		int attackRange = piece.getAttackRange();
+		
+		// right
+		for (int i = 0; i < attackRange; ++i) {
+			if ((index + i + 1) % width == 0) {
+				break;
+			} else if ((index + i + 1) > (width * height)) {
+				break;
+			} else {
+				StringBuilder sb = new StringBuilder();
+				if (positionsAndPieces.containsKey(index + i + 1)) {
+					if (isFriend(index, index + i + 1) && piece.getPieceType() == "Mage") {
+						sb.append("h");
+					} else if (!isFriend(index, index + i + 1)) {
+						sb.append("a");
+					}
+					sb.append(positionsAndPieces.get(index + i + 1).formatName());
+					availableInteractions.put(index + i + 1, sb.toString());
+				}
+			}
+		}
+		
+		// left
+		for (int i = 0; i < attackRange; ++i) {
+			if ((index - (i + 1)) % width == 14) {
+				break;
+			} else if ((index - (i + 1)) < 0) {
+				break;
+			} else {
+				StringBuilder sb = new StringBuilder();
+				if (positionsAndPieces.containsKey(index - (i + 1))) {
+					if (isFriend(index, (index - (i + 1))) && piece.getPieceType() == "Mage") {
+						sb.append("h");
+					} else if (!isFriend(index, (index - (i + 1)))) {
+						sb.append("a");
+					}
+					sb.append(positionsAndPieces.get((index - (i + 1))).formatName());
+					availableInteractions.put((index - (i + 1)), sb.toString());
+				}
+			}
+		}
+		
+		// down
+		for (int i = 0; i < attackRange; ++i) {
+			if ((index + (i+1)*width) > (width*height)) {
+				break;
+			}
+			else {
+				StringBuilder sb = new StringBuilder();
+				if (positionsAndPieces.containsKey(index + i + 1)) {
+					if (isFriend(index, index + i + 1) && piece.getPieceType() == "Mage") {
+						sb.append("h");
+					} else if (!isFriend(index, index + i + 1)) {
+						sb.append("a");
+					}
+					sb.append(positionsAndPieces.get(index + i + 1).formatName());
+					availableInteractions.put(index + i + 1, sb.toString());
+				}
+			}
+		}
+
+		return availableInteractions;
+	}
+
 	private boolean isFriend(Integer i, Integer j) {
 		GamePiece pieceOne = getPieceAt(i);
 		GamePiece pieceTwo = getPieceAt(j);
@@ -359,14 +426,4 @@ public class Board {
 	
 }
 
-//StringBuilder sb = new StringBuilder();
-//if (positionsAndPieces.containsKey(index+i+1)) {
-//	if (isFriend(index, index+i+1) && piece.getPieceType() == "Mage") {
-//		sb.append("h");
-//	}
-//	else if (!isFriend(index, index+i+1)) {
-//		sb.append("a");
-//	}
-//	sb.append(positionsAndPieces.get(index+i+1).formatName());
-//	availableActions.put(index+i+1, sb.toString());
-//}
+
