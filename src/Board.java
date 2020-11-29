@@ -9,7 +9,6 @@ public class Board {
 	private final int height;
 	private final ArrayList<String> PIECETYPES ;
 	private ArrayList<GamePiece> gamePieces;
-	private ArrayList<Integer> occupiedSpaces;
 	private TreeMap<Integer, GamePiece> positionsAndPieces;
 
 	public Board(int height, int width) {
@@ -17,12 +16,11 @@ public class Board {
 		this.height = height;
 		PIECETYPES = new ArrayList<>(List.of("Archer","Assassin","Knight","Mage","Shieldbearer","Swordsman"));
 		gamePieces = new ArrayList<>();
-		occupiedSpaces = new ArrayList();
-		positionsAndPieces = new TreeMap();
+		positionsAndPieces = new TreeMap<>();
 	}
 	
 	public TreeMap<Integer, String> getPositionsAndPieces() {
-		TreeMap<Integer, String> positionsAndPieceTypes = new TreeMap();
+		TreeMap<Integer, String> positionsAndPieceTypes = new TreeMap<>();
 		for (Integer i : this.positionsAndPieces.keySet()) {
 			positionsAndPieceTypes.put(i, positionsAndPieces.get(i).formatName());
 		}
@@ -83,12 +81,10 @@ public class Board {
 		for (GamePiece piece : gamePieces) {
 			if (piece.isBlueTeam) {
 				positionsAndPieces.put(blue, piece);
-				occupiedSpaces.add(blue);
 				++blue;
 			}
 			else {
 				positionsAndPieces.put(red, piece);
-				occupiedSpaces.add(red);
 				++red;
 			}
 		}
@@ -109,7 +105,7 @@ public class Board {
 	 */
 	public void movePiece(Integer startPosition, Integer endPosition) {
 		for (Integer i : positionsAndPieces.keySet()) {
-			if (i == startPosition) {
+			if (i.equals(startPosition)) {
 				GamePiece value = positionsAndPieces.get(startPosition);
 				positionsAndPieces.put(endPosition, value);
 				positionsAndPieces.remove(i);
@@ -140,7 +136,6 @@ public class Board {
 		}
 	}
 	
-	// comment
 	public TreeMap<Integer, String> availableActions(Integer index) {
 		TreeMap<Integer, String> availableActions = new TreeMap<>();
 		availableActions.putAll(this.getMoves(index));
@@ -149,7 +144,7 @@ public class Board {
 	}
 	
 	private TreeMap<Integer, String> getMoves(Integer index) {
-		TreeMap<Integer, String> availableMoves = new TreeMap();
+		TreeMap<Integer, String> availableMoves = new TreeMap<>();
 		GamePiece piece = this.getPieceAt(index);
 		int moveSpeed = piece.getMoveSpeed();
 		
@@ -213,7 +208,7 @@ public class Board {
 		// down and right
 		while (colIndex != 0) {
 			rowIndex = colIndex;
-			if ((index + (moveSpeed-colIndex) + width*rowIndex) % 15 == 0) {
+			if ((index + (moveSpeed-colIndex) + width*rowIndex) % width == 0) {
 				break;
 			}
 			
@@ -309,7 +304,7 @@ public class Board {
 	}
 	
 	private TreeMap<Integer, String> getInteractions(Integer index) {
-		TreeMap<Integer, String> availableInteractions = new TreeMap();
+		TreeMap<Integer, String> availableInteractions = new TreeMap<>();
 		GamePiece piece = this.getPieceAt(index);
 		int attackRange = piece.getAttackRange();
 		
