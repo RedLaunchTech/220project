@@ -13,7 +13,7 @@ public class Mage extends GamePiece {
 		attackRange = 3;
 		moveSpeed = 2;
 		critChance = 0.2;
-		pieceType = "Archer";
+		pieceType = "Mage";
 	}
 	
 	public double buff() {

@@ -7,7 +7,15 @@ public class Shieldbearer extends GamePiece {
 	 * Shieldbearer has preset stats.
 	 */
 	public Shieldbearer(boolean isBlueTeam) {
+		//TODO balance stats
 		super(isBlueTeam);
+		maxHitPoints = 20;
+		hitPoints = maxHitPoints;
+		attackDamage = 8;
+		attackRange = 1;
+		moveSpeed = 2;
+		critChance = 0.2;
+		pieceType = "Shieldbearer";
 	}
 
 	/**
