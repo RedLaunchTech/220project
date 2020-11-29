@@ -98,7 +98,7 @@ public class Board {
 	public void removePiece(Integer i) {
 		positionsAndPieces.remove(i); 
 	}
-
+//comment
 	/**
 	 * Changes the position of a game piece using starting coordinates @param startRow and @param startColumn
 	 * to ending coordinates @param endRow and @param endColumn
