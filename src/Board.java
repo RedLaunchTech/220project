@@ -118,30 +118,77 @@ public class Board {
 	 * Two pieces "fight". The @param attacker deals damage to the @param defender.
 	 */
 	public void fight(Integer attacker, Integer attackee) {
-		positionsAndPieces.get(attackee).takeDamage(positionsAndPieces.get(attacker).dealDamage());
-		if (!positionsAndPieces.get(attackee).isAlive()) {
-			if (positionsAndPieces.get(attackee).getPieceType().equals("Knight")) {
-				knightDeath(attackee, positionsAndPieces.get(attackee).isBlueTeam());
-			}
-			else {
-				this.removePiece(attackee);
+		if(positionsAndPieces.get(attacker).getPieceType().equals("Assassin")) {
+			stealthStrike(attacker, attackee);
+		} else {
+			positionsAndPieces.get(attackee).takeDamage(positionsAndPieces.get(attacker).dealDamage());
+			if (!positionsAndPieces.get(attackee).isAlive()) {
+				if (positionsAndPieces.get(attackee).getPieceType().equals("Knight")) {
+					knightDeath(attackee, positionsAndPieces.get(attackee).isBlueTeam());
+				} else {
+					this.removePiece(attackee);
+				}
 			}
 		}
 	}
 	
 	/**
-	 * @param assassin deals extra damage if @param targer has no friendly pieces within its movement range
+	 * @param assassin deals extra damage if @param target has no friendly pieces within its movement range
 	 */
 	// i don't know if this works, but if the attacker is an assassin this should happen
-	public void fight(Assassin assassin, GamePiece target) {
-		boolean isIsolated = false;
-		// TODO find if piece is isolated
+	public void stealthStrike(Integer attacker, Integer attackee) {
+		Assassin assassin = (Assassin)positionsAndPieces.get(attacker);
+		GamePiece target = positionsAndPieces.get(attackee);		
 		
-		if(isIsolated) {
+		if(isIsolated(attackee)) {
 			target.takeDamage((int)(assassin.dealDamage() * assassin.getSneakMultiplier()));
 		} else {
 			target.takeDamage(assassin.dealDamage());
 		}
+	}
+	
+	public boolean isIsolated(Integer man) {
+		if (man + 1 % width == 0) {
+			return true;
+		} else {
+			if (positionsAndPieces.containsKey(man + 1)) {
+				if (isFriend(man, man + 1)) {
+					return false;
+				}
+			}
+		}
+
+		if ((man - 1) % width == (width - 1)) {
+			return true;
+		} else {
+			if (positionsAndPieces.containsKey(man - 1)) {
+				if (isFriend(man, man - 1)) {
+					return false;
+				}
+			}
+		}
+		
+		if ((man + width) > width*height) {
+			return true;
+		} else {
+			if(positionsAndPieces.containsKey(man + width)) {
+				if(isFriend(man, man + width)) {
+					return false;
+				}
+			}
+		}
+		
+		if ((man - width) < 0) {
+			return true;
+		} else {
+			if(positionsAndPieces.containsKey(man - width)) {
+				if(isFriend(man, man - width)) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
 	}
 	
 	public TreeMap<Integer, String> availableActions(Integer index) {
