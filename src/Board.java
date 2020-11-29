@@ -110,7 +110,7 @@ public class Board {
 	public void movePiece(Integer startPosition, Integer endPosition) {
 		for (Integer i : positionsAndPieces.keySet()) {
 			if (i == startPosition) {
-				GamePiece value = positionsAndPieces.get(i);
+				GamePiece value = positionsAndPieces.get(startPosition);
 				positionsAndPieces.put(endPosition, value);
 				positionsAndPieces.remove(i);
 				break;
@@ -142,8 +142,10 @@ public class Board {
 	
 	// comment
 	public TreeMap<Integer, String> availableActions(Integer index) {
-		
-		return getMoves(index);
+		TreeMap<Integer, String> availableActions = new TreeMap<>();
+		availableActions.putAll(this.getMoves(index));
+		availableActions.putAll(this.getInteractions(index));
+		return availableActions;
 	}
 	
 	private TreeMap<Integer, String> getMoves(Integer index) {
@@ -358,16 +360,161 @@ public class Board {
 			}
 			else {
 				StringBuilder sb = new StringBuilder();
-				if (positionsAndPieces.containsKey(index + i + 1)) {
-					if (isFriend(index, index + i + 1) && piece.getPieceType() == "Mage") {
+				if (positionsAndPieces.containsKey(index + (i+1)*width)) {
+					if (isFriend(index, index + (i+1)*width) && piece.getPieceType() == "Mage") {
 						sb.append("h");
-					} else if (!isFriend(index, index + i + 1)) {
+					} else if (!isFriend(index, index + (i+1)*width)) {
 						sb.append("a");
 					}
-					sb.append(positionsAndPieces.get(index + i + 1).formatName());
-					availableInteractions.put(index + i + 1, sb.toString());
+					sb.append(positionsAndPieces.get(index + (i+1)*width).formatName());
+					availableInteractions.put(index + (i+1)*width, sb.toString());
 				}
 			}
+		}
+		
+		// up
+		for (int i = 0; i < attackRange; ++i) {
+			if ((index - (i+1)*width) < 0) {
+				break;
+			}
+			else {
+				StringBuilder sb = new StringBuilder();
+				if (positionsAndPieces.containsKey(index - (i+1)*width)) {
+					if (isFriend(index, index - (i+1)*width) && piece.getPieceType() == "Mage") {
+						sb.append("h");
+					} else if (!isFriend(index, index - (i+1)*width)) {
+						sb.append("a");
+					}
+					sb.append(positionsAndPieces.get(index - (i+1)*width).formatName());
+					availableInteractions.put(index - (i+1)*width, sb.toString());
+				}
+			}
+		}
+		
+		int colIndex = attackRange - 1;
+		int rowIndex;
+		
+		// down and right
+		while (colIndex != 0) {
+			rowIndex = colIndex;
+			if ((index + (attackRange-colIndex) + width*rowIndex) % 15 == 0) {
+				break;
+			}
+			
+			while (rowIndex != 0) {
+				if (index + (attackRange-colIndex) + width*rowIndex > width*height) {
+					--rowIndex;
+					continue;
+				}
+				StringBuilder sb = new StringBuilder();
+				if (positionsAndPieces.containsKey(index + (attackRange-colIndex) + width*rowIndex)) {
+					if (isFriend(index, index + (attackRange-colIndex) + width*rowIndex) && piece.getPieceType() == "Mage") {
+						sb.append("h");
+					} else if (!isFriend(index, index + (attackRange-colIndex) + width*rowIndex)) {
+						sb.append("a");
+					}
+					sb.append(positionsAndPieces.get(index + (attackRange-colIndex) + width*rowIndex).formatName());
+					availableInteractions.put(index + (attackRange-colIndex) + width*rowIndex, sb.toString());
+				}
+				--rowIndex;
+			}
+			--colIndex;
+		}
+		
+		colIndex = attackRange - 1;
+		
+		// up and right
+		while (colIndex != 0) {
+			rowIndex = colIndex;
+			if ((index + (attackRange-colIndex) - width*rowIndex) % 15 == 0) {
+				break;
+			}
+			
+			while (rowIndex != 0) {
+				if (index + (attackRange-colIndex) - width*rowIndex < 0) {
+					--rowIndex;
+					continue;
+				}
+				if (index + (attackRange-colIndex) + 1 > width*height) { // line might be bugged, "+1" in if shouldn't be there? But only works if it is
+					break;
+				}
+				StringBuilder sb = new StringBuilder();
+				if (positionsAndPieces.containsKey(index + (attackRange-colIndex) - width*rowIndex)) {
+					if (isFriend(index, index + (attackRange-colIndex) - width*rowIndex) && piece.getPieceType() == "Mage") {
+						sb.append("h");
+					} else if (!isFriend(index, index + (attackRange-colIndex) - width*rowIndex)) {
+						sb.append("a");
+					}
+					sb.append(positionsAndPieces.get(index + (attackRange-colIndex) - width*rowIndex).formatName());
+					availableInteractions.put(index + (attackRange-colIndex) - width*rowIndex, sb.toString());
+				}
+				
+				--rowIndex;
+			}
+			--colIndex;
+		}
+		
+		colIndex = attackRange - 1;
+
+		// down and left
+		while (colIndex != 0) {
+			rowIndex = colIndex;
+			if ((index - (attackRange - colIndex) + width * rowIndex) % 15 == 14) {
+				break;
+			}
+
+			while (rowIndex != 0) {
+				if (index - (attackRange - colIndex) + width * rowIndex > width * height) {
+					--rowIndex;
+					continue;
+				}
+				if (index - (attackRange - colIndex) < 0) {
+					break;
+				}
+				StringBuilder sb = new StringBuilder();
+				if (positionsAndPieces.containsKey(index - (attackRange - colIndex) + width * rowIndex)) {
+					if (isFriend(index, index - (attackRange - colIndex) + width * rowIndex) && piece.getPieceType() == "Mage") {
+						sb.append("h");
+					} else if (!isFriend(index, index - (attackRange - colIndex) + width * rowIndex)) {
+						sb.append("a");
+					}
+					sb.append(positionsAndPieces.get(index - (attackRange - colIndex) + width * rowIndex).formatName());
+					availableInteractions.put(index - (attackRange - colIndex) + width * rowIndex, sb.toString());
+				}
+
+				--rowIndex;
+			}
+			--colIndex;
+		}
+		
+		colIndex = attackRange - 1;
+		
+		// up and left
+		while (colIndex != 0) {
+			rowIndex = colIndex;
+			if ((index - (attackRange-colIndex) - width*rowIndex) % 15 == 14) {
+				break;
+			}
+			
+			while (rowIndex != 0) {
+				if (index - (attackRange-colIndex) - width*rowIndex < 0) {
+					--rowIndex;
+					continue;
+				}
+				StringBuilder sb = new StringBuilder();
+				if (positionsAndPieces.containsKey(index - (attackRange-colIndex) - width*rowIndex)) {
+					if (isFriend(index, index - (attackRange-colIndex) - width*rowIndex) && piece.getPieceType() == "Mage") {
+						sb.append("h");
+					} else if (!isFriend(index, index - (attackRange-colIndex) - width*rowIndex)) {
+						sb.append("a");
+					}
+					sb.append(positionsAndPieces.get(index - (attackRange-colIndex) - width*rowIndex).formatName());
+					availableInteractions.put(index - (attackRange-colIndex) - width*rowIndex, sb.toString());
+				}
+				
+				--rowIndex;
+			}
+			--colIndex;
 		}
 
 		return availableInteractions;
