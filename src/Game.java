@@ -45,6 +45,8 @@ public class Game implements ActionListener{
 		
 		action = "click";
 		
+		this.makePiecesPlayabel();
+		
 	}
 	
 	@Override
@@ -62,6 +64,7 @@ public class Game implements ActionListener{
 				isBlueTurn = !isBlueTurn;
 				gui.pieceButtons(board.getPositionsAndPieces(), isBlueTurn);
 				gui.updateTeam(isBlueTurn);
+				this.makePiecesPlayabel();
 			}
 		}
 	}
@@ -86,24 +89,26 @@ public class Game implements ActionListener{
 			gui.moveButtons(board.availableActions(userInput), activePiece);
 			gui.setStats(board.getPieceAt(userInput));
 			
-			if (board.getPieceAt(activePiece).isMoveable()) {
-				action = "action";
-			}
-			else {
-				gui.placePieces(board.getPositionsAndPieces(), isBlueTurn);
-			}
-			
+//			if (board.getPieceAt(activePiece).isMoveable()) {
+//				action = "action";
+//			}
+//			else {
+//				gui.placePieces(board.getPositionsAndPieces(), isBlueTurn);
+//			}
 			action = "action";
+			
 			
 			break;
 		case "action":
+			secondPoint = userInput;
 			if (userInput == activePiece) {
 				gui.placePieces(board.getPositionsAndPieces(), isBlueTurn);
 				
 			}
-			secondPoint = userInput;
-			board.movePiece((Integer)activePiece, (Integer) secondPoint);
-			System.out.println("Piece moved");
+			else {
+				board.movePiece((Integer)activePiece, (Integer) secondPoint);
+				System.out.println("Piece moved");
+			}
 			gui.placePieces(board.getPositionsAndPieces(), isBlueTurn);
 			gui.clearStats();
 			action = "click";
@@ -126,6 +131,20 @@ public class Game implements ActionListener{
 	 */
 	private boolean redHasWon() {
 		return false;
+	}
+	
+	private void makePiecesPlayabel() {
+		for(int i = 0; i < NUMSPACES; i++) {
+			GamePiece unit = board.getPieceAt(i);
+			if (!(unit == null)) {
+				if (unit.isBlueTeam == this.isBlueTurn) {
+					unit.canMove(true);
+				}
+				else {
+					unit.canMove(false);
+				}
+			}
+		}
 	}
 	
 }
