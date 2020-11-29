@@ -64,7 +64,7 @@ public class Board {
 				gamePieces.add(newPiece);
 			}
 			if (s.equals("Shieldbearer")) {
-				Mage newPiece = new Mage(currPlayer);
+				Shieldbearer newPiece = new Shieldbearer(currPlayer);
 				gamePieces.add(newPiece);
 			}
 			if (s.equals("Swordsman")) {
