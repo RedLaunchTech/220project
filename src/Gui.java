@@ -233,7 +233,13 @@ public class Gui  {
 				}
 				else if (input.charAt(0) == 'h') {
 					gameBoard.get(i).setEnabled(true);
-					this.setButtonColor(i, "move");
+					if (input.charAt(1) == 'b') {
+						this.setButtonColor(i, "blueSelect");
+					}
+					else {
+						this.setButtonColor(i, "redSelect");
+					}
+					
 				}
 				
 				//TO FINNISH
