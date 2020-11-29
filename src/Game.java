@@ -94,6 +94,8 @@ public class Game implements ActionListener{
 				
 			}
 			secondPoint = userInput;
+			board.movePiece((Integer)activePiece, (Integer) secondPoint);
+			System.out.println("Piece moved");
 			gui.placePieces(board.getPositionsAndPieces(), isBlueTurn);
 			gui.clearStats();
 			action = "click";

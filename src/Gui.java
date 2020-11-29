@@ -176,7 +176,7 @@ public class Gui  {
 	
 	public void placePieces(Map<Integer, String> map, boolean isBlueTurn) {
 		for (int i = 0; i < NUMSPACES; i++) {
-			String piece = (String) map.getOrDefault(i, "");
+			String piece = map.getOrDefault(i, "");
 			
 			if (piece.length() > 0) {
 				if (piece.charAt(0) == 'r') {
@@ -190,6 +190,7 @@ public class Gui  {
 			}
 			else {
 				this.setButtonColor(i, "defualt");
+				setCharacter(i, "Remove");
 			}
 			
 		}
