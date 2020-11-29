@@ -119,6 +119,9 @@ public class Board {
 	 */
 	public void fight(Integer attacker, Integer attackee) {
 		positionsAndPieces.get(attackee).takeDamage(positionsAndPieces.get(attacker).dealDamage());
+		if (!positionsAndPieces.get(attackee).isAlive()) {
+			this.removePiece(attackee);
+		}
 	}
 	
 	/**
