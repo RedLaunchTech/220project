@@ -122,12 +122,12 @@ public class Board {
 			stealthStrike(attacker, attackee);
 		} else {
 			positionsAndPieces.get(attackee).takeDamage(positionsAndPieces.get(attacker).dealDamage());
-			if (!positionsAndPieces.get(attackee).isAlive()) {
-				if (positionsAndPieces.get(attackee).getPieceType().equals("Knight")) {
-					knightDeath(attackee, positionsAndPieces.get(attackee).isBlueTeam());
-				} else {
-					this.removePiece(attackee);
-				}
+		}
+		if (!positionsAndPieces.get(attackee).isAlive()) {
+			if (positionsAndPieces.get(attackee).getPieceType().equals("Knight")) {
+				knightDeath(attackee, positionsAndPieces.get(attackee).isBlueTeam());
+			} else {
+				this.removePiece(attackee);
 			}
 		}
 	}
