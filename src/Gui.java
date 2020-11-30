@@ -51,7 +51,7 @@ public class Gui  {
 	JLabel damage;
 	JLabel critChance;
 	
-	//Buttons for the gameboard and for switching turns.
+	//Buttons for the game board and for switching turns.
 	ArrayList<JButton> gameBoard = new ArrayList<JButton>();
 	JButton turnButton;
 	

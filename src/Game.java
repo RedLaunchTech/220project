@@ -1,11 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.TreeMap;
-
-import javax.swing.ImageIcon;
 
 
 
@@ -19,7 +14,6 @@ public class Game implements ActionListener{
 	
 	private boolean isBlueTurn;
 	private Board board;
-	private String userInput;
 	
 	String action;
 	int activePiece;
@@ -157,6 +151,14 @@ public class Game implements ActionListener{
 		
 		}
 		
+		if (this.blueHasWon()) {
+			System.out.println("Blue has won the game");
+		}
+		
+		if (this.redHasWon()) {
+			System.out.println("Red has won the game");
+		}
+		
 		
 	}
 	
@@ -164,6 +166,17 @@ public class Game implements ActionListener{
 	 * @return true if red is out of pieces and blue has won the game
 	 */
 	private boolean blueHasWon() {
+		for(int i = 0; i < NUMSPACES; i++) {
+			GamePiece unit = board.getPieceAt(i);
+			if (!(unit == null)) {
+				if (unit.isBlueTeam() == false) {
+					return false;
+				}
+				else {
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 	
@@ -171,6 +184,17 @@ public class Game implements ActionListener{
 	 * @return true if blue is out of pieces and red has won the game
 	 */
 	private boolean redHasWon() {
+		for(int i = 0; i < NUMSPACES; i++) {
+			GamePiece unit = board.getPieceAt(i);
+			if (!(unit == null)) {
+				if (unit.isBlueTeam == true) {
+					return false;
+				}
+				else {
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 	
