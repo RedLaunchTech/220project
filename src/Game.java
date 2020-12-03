@@ -30,14 +30,24 @@ public class Game implements ActionListener{
 	public Game() {
 		//Initialize board
 		board = new Board(ROWS, COLS);
-		board.initializeGame();
-		isBlueTurn = true;
+
 		
 		//Initialize the gui
 		gui = new Gui(this);
+		
+		resetGame();
+		
+	}
+	
+	public void resetGame() {
+		
+		board = new Board(ROWS, COLS);
+		board.initializeGame();
+		isBlueTurn = true;
+		
+		//Reset the gui
 		gui.placePieces(board.getPositionsAndPieces(), isBlueTurn);
 		gui.updateTeam(isBlueTurn);
-		System.out.println(board.getPositionsAndPieces());
 		
 		//Initialize the variables for the game play.
 		action = "click";
@@ -45,7 +55,6 @@ public class Game implements ActionListener{
 		
 		//Make the playable pieces active.
 		this.makePiecesPlayable();
-		
 	}
 	
 	/**
@@ -56,10 +65,12 @@ public class Game implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//check to see if it is a gameboard button.
+		gui.showGameWin("Blue");
 		for (int i = 0; i <= NUMSPACES-1; i++) {
 			if (e.getActionCommand().equals("MATRIX_BUTTON_" + i)) {
 				gameRun(i);
 				System.out.println(i);
+				
 			}
 			
 		}
@@ -71,6 +82,22 @@ public class Game implements ActionListener{
 				gui.updateTeam(isBlueTurn);
 				this.makePiecesPlayable();
 			}
+		}
+		if (e.getActionCommand().equals("New Game")) {
+			resetGame();
+			gui.hideGameWin();
+		}
+		if (e.getActionCommand().equals("Exit")) {
+			gui.showExitWindow();
+		}
+		if (e.getActionCommand().equals("exitOk")) {
+			System.exit(0);
+		}
+		if (e.getActionCommand().equals("exitNo")) {
+			gui.hideExitWindow();
+		}
+		if (e.getActionCommand().equals("About")) {
+			System.out.println("Opened about page");
 		}
 	}
 	
@@ -153,10 +180,12 @@ public class Game implements ActionListener{
 		
 		if (this.blueHasWon()) {
 			System.out.println("Blue has won the game");
+			gui.showGameWin("Blue");
 		}
 		
 		if (this.redHasWon()) {
 			System.out.println("Red has won the game");
+			gui.showGameWin("Red");
 		}
 		
 		
@@ -166,18 +195,16 @@ public class Game implements ActionListener{
 	 * @return true if red is out of pieces and blue has won the game
 	 */
 	private boolean blueHasWon() {
+		
 		for(int i = 0; i < NUMSPACES; i++) {
 			GamePiece unit = board.getPieceAt(i);
 			if (!(unit == null)) {
 				if (unit.isBlueTeam() == false) {
 					return false;
 				}
-				else {
-					return true;
-				}
 			}
 		}
-		return false;
+		return true;
 	}
 	
 	/**
@@ -187,15 +214,12 @@ public class Game implements ActionListener{
 		for(int i = 0; i < NUMSPACES; i++) {
 			GamePiece unit = board.getPieceAt(i);
 			if (!(unit == null)) {
-				if (unit.isBlueTeam == true) {
+				if (unit.isBlueTeam() == true) {
 					return false;
-				}
-				else {
-					return true;
 				}
 			}
 		}
-		return false;
+		return true;
 	}
 	
 	/**

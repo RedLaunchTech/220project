@@ -1,8 +1,10 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -16,7 +18,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.SwingConstants;
 
 public class Gui  {
@@ -28,10 +34,21 @@ public class Gui  {
 	//the master frame.
 	JFrame frame;
 	
+	//top menu
+	JMenu menu;
+	JMenuBar menuBar;
+	JMenuItem menuItem;
+	
+	//Popups
+	JPopupMenu exitWindow, gameWin, about, info;
+	
 	//panels used to format the look of the game.
 	JPanel gameMap;
 	JPanel gameMapTile;
 	JPanel statsMap;
+	
+	String[] menuButtons;
+	Boolean[] seperators;
 	
 	//the colors used for the buttons.
 	Color red = new Color(255, 26, 26);
@@ -51,9 +68,14 @@ public class Gui  {
 	JLabel damage;
 	JLabel critChance;
 	
+	//Labels 
+	JLabel gameWinLabel;
+	
 	//Buttons for the game board and for switching turns.
 	ArrayList<JButton> gameBoard = new ArrayList<JButton>();
 	JButton turnButton;
+	JButton popupButton;
+	
 	
 	/*
 	 * the default constructor for the gui.
@@ -91,8 +113,8 @@ public class Gui  {
 			gameMap.add(button);
 		}
 		
-		//set the prefered size of the game window based on the board size.
-		frame.setPreferredSize(new Dimension(260+SQUARE_SIZE*COLS, 70+SQUARE_SIZE*ROWS));
+		//set the preferred size of the game window based on the board size.
+		frame.setPreferredSize(new Dimension(260+SQUARE_SIZE*COLS, 90+SQUARE_SIZE*ROWS));
 		
 		//set the preferred size of the panels within the frame
 		statsMap.setPreferredSize(new Dimension(200, SQUARE_SIZE*ROWS));
@@ -128,13 +150,131 @@ public class Gui  {
 		statsMap.add(critChance);
 		statsMap.add(turnButton);
 		
-		//add the two main pains to the frame and make it visiable.
+		//Create the top menu.
+		menuBar = new JMenuBar();
+		menu = new JMenu("Game");
+		
+		menuItem = new JMenuItem("New Game");
+		menuItem.addActionListener(o);
+		menuItem.setActionCommand("New Game");
+		menu.add(menuItem);
+		
+		menu.addSeparator();
+		
+		menuItem = new JMenuItem("Exit");
+		menuItem.addActionListener(o);
+		menuItem.setActionCommand("Exit");
+		menu.add(menuItem);
+		
+		menuBar.add(menu);
+		
+		menu = new JMenu("Info");
+		
+		menuItem = new JMenuItem("How to Play");
+		menuItem.getAccessibleContext().setAccessibleDescription("How to Play");
+		menu.add(menuItem);
+		
+		menu.addSeparator();
+		
+		menuItem = new JMenuItem("About");
+		menuItem.addActionListener(o);
+		menuItem.setActionCommand("About");
+		menu.add(menuItem);
+		
+		menuBar.add(menu);
+		
+		//Exit popup
+		exitWindow = new JPopupMenu("Exit the game?");
+		exitWindow.setLayout(new BoxLayout(exitWindow, BoxLayout.Y_AXIS));
+		exitWindow.setPreferredSize(new Dimension(150, 100));
+		
+		JPanel exitWindowMenu = new JPanel();
+		exitWindowMenu.setLayout(new BoxLayout(exitWindowMenu, BoxLayout.X_AXIS));
+		exitWindowMenu.setAlignmentX((float) .5);
+		
+		JPanel space = new JPanel();
+		space.setPreferredSize(new Dimension(180, 80));
+		
+		JLabel exitWindowLabel = new JLabel("Exit the game?");
+		exitWindowLabel.setAlignmentX((float) .5);
+		
+		
+		popupButton = new JButton("Yes");
+		popupButton.setActionCommand("exitOk");
+		popupButton.addActionListener(o);
+		
+		exitWindowMenu.add(popupButton);
+		
+		popupButton = new JButton("No");
+		popupButton.setActionCommand("exitNo");
+		popupButton.addActionListener(o);
+		
+		exitWindowMenu.add(popupButton);
+		
+		exitWindow.add(exitWindowLabel);
+		exitWindow.add(space);
+		exitWindow.add(exitWindowMenu);
+		
+		//Game Win popup
+		gameWin = new JPopupMenu("Exit the game?");
+		gameWin.setLayout(new BoxLayout(gameWin, BoxLayout.Y_AXIS));
+		gameWin.setPreferredSize(new Dimension(200, 100));
+		
+		JPanel gameWinMenu = new JPanel();
+		gameWinMenu.setLayout(new BoxLayout(gameWinMenu, BoxLayout.X_AXIS));
+		gameWinMenu.setAlignmentX((float) .5);
+		
+		space = new JPanel();
+		space.setPreferredSize(new Dimension(180, 80));
+		
+		gameWinLabel = new JLabel("The game has been won");
+		gameWinLabel.setAlignmentX((float) .5);
+		
+		popupButton = new JButton("New Game");
+		popupButton.setActionCommand("New Game");
+		popupButton.addActionListener(o);
+		
+		gameWinMenu.add(popupButton);
+		
+		popupButton = new JButton("Exit Game");
+		popupButton.setActionCommand("exitOk");
+		popupButton.addActionListener(o);
+		
+		gameWinMenu.add(popupButton);
+		
+		gameWin.add(gameWinLabel);
+		gameWin.add(space);
+		gameWin.add(gameWinMenu);
+		
+		
+		
+		//add the two main pains to the frame and make it visible.
 		frame.add(gameMapTile, BorderLayout.EAST);
 		frame.add(statsMap, BorderLayout.WEST);
+		frame.setJMenuBar(menuBar);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Game of Ages");
 		frame.pack();
 		frame.setVisible(true);
+	}
+	
+	public void showGameWin(String winner) {
+		gameWin.setVisible(true);
+		gameWinLabel.setText(winner + " has won the game!");
+		gameWin.setLocation((int)(frame.getSize().getWidth()/2 - gameWin.getSize().getWidth()/2), (int)(frame.getSize().getHeight()/2 - gameWin.getSize().getHeight()/2));
+	}
+	
+	public void hideGameWin() {
+		gameWin.setVisible(false);
+	}
+	
+	public void showExitWindow() {
+		exitWindow.setVisible(true);
+		exitWindow.setLocation((int)(frame.getSize().getWidth()/2 - exitWindow.getSize().getWidth()/2), (int)(frame.getSize().getHeight()/2 - exitWindow.getSize().getHeight()/2));
+	}
+	
+	public void hideExitWindow() {
+		exitWindow.setVisible(false);
 	}
 	
 	/**
@@ -323,7 +463,7 @@ public class Gui  {
 		type.setText("Unit type: " + g.getPieceType());
 		health.setText("Unit Health: " + g.getHitPoints());
 		damage.setText("Unit damage: " + g.getAttackDamage());
-		critChance.setText("Unit Critical Chance: " + g.getCritChance()*100);
+		critChance.setText("Unit Critical Chance: " + String.format("%1.0f%%",g.getCritChance()*100));
 		g.getHitPoints();
 	}
 	
