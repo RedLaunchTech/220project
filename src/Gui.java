@@ -271,7 +271,7 @@ public class Gui  {
 				+ " click on the enemy piece to attack it with your piece. \r\n" + 
 				"\r\n" + 
 				"Each player takes their turn by moving and attaking with each of"
-				+ " their pieces. When a player is finsihed with their turn, they "
+				+ " their pieces. When a player is finished with their turn, they "
 				+ "click switch turn and the other player takes their turn. Each"
 				+ " player goes back and forth taking turns with the goal of defeating"
 				+ " all of the pieces of the enemy player. A player wins when the "
@@ -337,7 +337,7 @@ public class Gui  {
 		
 		aboutMessage = ("Call of Coding: Medieval Warfare was made by "
 				 + "Tim DeMember, Riley Truitt, and Nicholas "
-				 + "Sparks as a final project for COMP 202. "
+				 + "Sparks as a final project for COMP 220. "
 				 + "It was completed in the fall of 2020 under "
 				 + "the threat of bad grades and corona.");
 		
