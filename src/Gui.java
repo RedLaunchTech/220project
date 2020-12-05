@@ -23,7 +23,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 public class Gui  {
 	final int ROWS = 10;
@@ -68,10 +70,12 @@ public class Gui  {
 	JLabel damage;
 	JLabel critChance;
 	JLabel discription;
+	JTextArea discriptionText;
 	
 	//Labels 
 	JLabel gameWinLabel;
 	JLabel genericLabel;
+	JTextArea genericText;
 	
 	//Buttons for the game board and for switching turns.
 	ArrayList<JButton> gameBoard = new ArrayList<JButton>();
@@ -79,7 +83,8 @@ public class Gui  {
 	JButton popupButton;
 	
 	//about message
-	String[] aboutMessage = new String[5];
+	String aboutMessage = new String();
+	
 	String[] howToPlayMessage = new String[5];
 	
 	
@@ -130,15 +135,27 @@ public class Gui  {
 		//Initialize all of the info text on the side.
 		currentTeam = new JLabel("");
 		currentTeam.setFont(new Font("arial", Font.PLAIN, 20));
+		currentTeam.setAlignmentX(Component.LEFT_ALIGNMENT);
 		type = new JLabel("Unit Type: ");
-		health = new JLabel("Unit Health: ", SwingConstants.LEFT);
-		health.setVerticalAlignment(SwingConstants.TOP);
-		damage = new JLabel("Unit damage: ", SwingConstants.LEFT);
-		damage.setVerticalAlignment(SwingConstants.TOP);
-		critChance = new JLabel("Unit Critical Chance: ", SwingConstants.LEFT);
-		critChance.setVerticalAlignment(SwingConstants.TOP);
-		discription = new JLabel("Unit Discription: ", SwingConstants.LEFT);
-		critChance.setVerticalAlignment(SwingConstants.TOP);
+		type.setAlignmentX(Component.LEFT_ALIGNMENT);
+		health = new JLabel("Unit Health: ");
+		health.setAlignmentX(Component.LEFT_ALIGNMENT);
+		damage = new JLabel("Unit damage: ");
+		damage.setAlignmentX(Component.LEFT_ALIGNMENT);
+		critChance = new JLabel("Unit Critical Chance: ");
+		critChance.setAlignmentX(Component.LEFT_ALIGNMENT);
+		discription = new JLabel("Unit Discription:");
+		discription.setAlignmentX(Component.LEFT_ALIGNMENT);
+		discriptionText  = new JTextArea(20, 20);
+		discriptionText.setAlignmentX(Component.LEFT_ALIGNMENT);
+		discriptionText.setLineWrap(true);
+		discriptionText.setWrapStyleWord(true);
+		discriptionText.setEditable(false);
+	    discriptionText.setFocusable(false);
+	    discriptionText.setBackground(UIManager.getColor("Label.background"));
+	    discriptionText.setFont(UIManager.getFont("Label.font"));
+	    discriptionText.setBorder(UIManager.getBorder("Label.border"));
+		
 		
 		JPanel space = new JPanel();
 		space.setPreferredSize(new Dimension(300,SQUARE_SIZE*ROWS));
@@ -163,6 +180,7 @@ public class Gui  {
 		space.add(damage);
 		space.add(critChance);
 		space.add(discription);
+		space.add(discriptionText);
 		statsMap.add(space);
 		statsMap.add(turnButton, BorderLayout.SOUTH);
 		
@@ -266,10 +284,11 @@ public class Gui  {
 		//About popup
 		about = new JPopupMenu("About");
 		about.setLayout(new BoxLayout(about, BoxLayout.Y_AXIS));
-		about.setPreferredSize(new Dimension(300,150));
+		about.setPreferredSize(new Dimension(400,300));
 		
 		space = new JPanel();
 		space.setPreferredSize(new Dimension(180, 10));
+		space.setBackground(Color.orange);
 		
 		genericLabel = new JLabel("About Call of Coding: Medieval Warfare");
 		genericLabel.setAlignmentX((float) .5);
@@ -277,18 +296,24 @@ public class Gui  {
 		about.add(genericLabel);
 		about.addSeparator();
 		
-		aboutMessage[0] = "Call of Coding: Medieval Warfare was made by";
-		aboutMessage[1] = "Tim DeMember, Riley Truit, and Nicholas";
-		aboutMessage[2] = "Sparks as a final project for COMP 202.";
-		aboutMessage[3] = "It was completed in the fall of 2020 under";
-		aboutMessage[4] = "the threat of bad grades and corona.";
+		aboutMessage = ("Call of Coding: Medieval Warfare was made by "
+				 + "Tim DeMember, Riley Truit, and Nicholas "
+				 + "Sparks as a final project for COMP 202. "
+				 + "It was completed in the fall of 2020 under "
+				 + "the threat of bad grades and corona.");
 		
-		for (String text : aboutMessage) {
-			genericLabel = new JLabel(text);
-			genericLabel.setAlignmentX((float) .5);
-			about.add(genericLabel);
-		}
+		genericText = new JTextArea(20, 34);
+		genericText.setAlignmentX(Component.LEFT_ALIGNMENT);
+		genericText.setLineWrap(true);
+		genericText.setWrapStyleWord(true);
+		genericText.setEditable(false);
+	    genericText.setFocusable(false);
+	    genericText.setBackground(UIManager.getColor("Label.background"));
+	    genericText.setFont(UIManager.getFont("Label.font"));
+	    genericText.setBorder(UIManager.getBorder("Label.border"));
+		genericText.setText(aboutMessage);
 		
+		space.add(genericText);
 		about.add(space);
 		
 		popupButton = new JButton("Done");
@@ -558,17 +583,18 @@ public class Gui  {
 		health.setText("Unit Health: " + g.getHitPoints());
 		damage.setText("Unit Damage: " + g.getAttackDamage());
 		critChance.setText("Unit Critical Chance: " + String.format("%1.0f%%",g.getCritChance()*100));
-		discription.setText("Unit Discription: " + g.getDescription());
+		discriptionText.setText(g.getDescription());
 	}
 	
 	/**
 	 * reset all states to the default values.
 	 */
 	public void clearStats() {
-		type.setText("Unit type:");
+		type.setText("Unit Type:");
 		health.setText("Unit Health:");
-		damage.setText("Unit damage:");
+		damage.setText("Unit Damage:");
 		critChance.setText("Unit Critical Chance:");
+		discriptionText.setText("");
 	}
 	
 	/**
