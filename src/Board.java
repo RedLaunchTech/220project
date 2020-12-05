@@ -14,7 +14,8 @@ public class Board {
 	public Board(int height, int width) {
 		this.width = width;
 		this.height = height;
-		PIECETYPES = new ArrayList<>(List.of("Archer","Assassin","Knight","Mage","Shieldbearer","Swordsman"));
+		PIECETYPES = new ArrayList<>(List.of("Shieldbearer","Assassin","Archer","Swordsman","Knight",
+				"Mage","Swordsman","Archer","Assassin","Shieldbearer"));
 		gamePieces = new ArrayList<>();
 		positionsAndPieces = new TreeMap<>();
 	}
@@ -77,15 +78,15 @@ public class Board {
 	 */
 	private void placePieces() {
 		Integer blue = 0;
-		Integer red = 144;
+		Integer red = 149;
 		for (GamePiece piece : gamePieces) {
 			if (piece.isBlueTeam) {
 				positionsAndPieces.put(blue, piece);
-				++blue;
+				blue += 15;
 			}
 			else {
 				positionsAndPieces.put(red, piece);
-				++red;
+				red -= 15;
 			}
 		}
 	}
