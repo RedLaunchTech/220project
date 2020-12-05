@@ -68,10 +68,7 @@ public class Game implements ActionListener{
 		for (int i = 0; i <= NUMSPACES-1; i++) {
 			if (e.getActionCommand().equals("MATRIX_BUTTON_" + i)) {
 				gameRun(i);
-				System.out.println(i);
-				
 			}
-			
 		}
 		//check to see if it is the turn switch button.
 		if (e.getActionCommand().equals("NEXT_TURN")) {
@@ -82,24 +79,30 @@ public class Game implements ActionListener{
 				this.makePiecesPlayable();
 			}
 		}
-		if (e.getActionCommand().equals("New Game")) {
+		else if (e.getActionCommand().equals("New Game")) {
 			resetGame();
 			gui.hideGameWin();
 		}
-		if (e.getActionCommand().equals("Exit")) {
+		else if (e.getActionCommand().equals("Exit")) {
 			gui.showExitWindow();
 		}
-		if (e.getActionCommand().equals("exitOk")) {
+		else if (e.getActionCommand().equals("exitOk")) {
 			System.exit(0);
 		}
-		if (e.getActionCommand().equals("exitNo")) {
+		else if (e.getActionCommand().equals("exitNo")) {
 			gui.hideExitWindow();
 		}
-		if (e.getActionCommand().equals("About")) {
+		else if (e.getActionCommand().equals("About")) {
 			gui.showAbout();
 		}
-		if (e.getActionCommand().equals("exitAbout")) {
+		else if (e.getActionCommand().equals("exitAbout")) {
 			gui.closeAbout();
+		}
+		else if (e.getActionCommand().equals("Info")) {
+			gui.showInfo();
+		}
+		else if (e.getActionCommand().equals("exitInfo")) {
+			gui.closeInfo();
 		}
 	}
 	
@@ -155,8 +158,6 @@ public class Game implements ActionListener{
 			else if (board.availableActions(activePiece).get((Integer) secondPoint).charAt(0)=='m') {
 				
 				board.movePiece((Integer) activePiece, (Integer) secondPoint);
-				System.out.println("Piece moved");
-				System.out.println(board.getPieceAt(secondPoint).getPieceType().substring(0));
 				if ((board.getPieceAt(secondPoint).getPieceType().substring(0) == "Knight")) {
 					if (moveCounter == 1) {
 						board.getPieceAt(secondPoint).canMove(false);

@@ -4,16 +4,12 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.LayoutManager;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.DebugGraphics;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -24,7 +20,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 public class Gui  {
@@ -83,9 +78,9 @@ public class Gui  {
 	JButton popupButton;
 	
 	//about message
-	String aboutMessage = new String();
+	String aboutMessage, infoMessage = new String();
 	
-	String[] howToPlayMessage = new String[5];
+
 	
 	
 	/*
@@ -132,6 +127,28 @@ public class Gui  {
 		gameMap.setPreferredSize(new Dimension(SQUARE_SIZE*COLS,SQUARE_SIZE*ROWS));
 		gameMapTile.add(gameMap, BorderLayout.SOUTH);
 		
+		createStats(o);
+		
+		createInfoMenu(o);
+		createInfo(o);
+		createAbout(o);
+		createGameWin(o);
+		createExitWindow(o);
+		
+		//add the two main pains to the frame and make it visible.
+		frame.add(gameMapTile, BorderLayout.EAST);
+		frame.add(statsMap, BorderLayout.WEST);
+		frame.setJMenuBar(menuBar);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle("Call of Coding: Medieval Warfare");
+		frame.pack();
+		frame.setVisible(true);
+	}
+
+	/**
+	 * create all text objects within the left box.
+	 */
+	public void createStats(ActionListener o) {
 		//Initialize all of the info text on the side.
 		currentTeam = new JLabel("");
 		currentTeam.setFont(new Font("arial", Font.PLAIN, 20));
@@ -183,9 +200,13 @@ public class Gui  {
 		space.add(discriptionText);
 		statsMap.add(space);
 		statsMap.add(turnButton, BorderLayout.SOUTH);
-		
-		
-		//Create the top menu.
+	}
+	
+	/**
+	 * create the top menu containing the drop down menu.
+	 * @param o The action listener of the game.
+	 */
+	public void createInfoMenu(ActionListener o) {
 		menuBar = new JMenuBar();
 		menu = new JMenu("Game");
 		
@@ -206,7 +227,8 @@ public class Gui  {
 		menu = new JMenu("Info");
 		
 		menuItem = new JMenuItem("How to Play");
-		menuItem.getAccessibleContext().setAccessibleDescription("How to Play");
+		menuItem.addActionListener(o);
+		menuItem.setActionCommand("Info");
 		menu.add(menuItem);
 		
 		menu.addSeparator();
@@ -217,84 +239,101 @@ public class Gui  {
 		menu.add(menuItem);
 		
 		menuBar.add(menu);
+	}
+	
+	/**
+	 * create the how to play panel.
+	 * @param o The action listener of the game.
+	 */
+	public void createInfo(ActionListener o) {
+		//How to play
+		info = new JPopupMenu("How to play");
+		info.setLayout(new BoxLayout(info, BoxLayout.Y_AXIS));
+		info.setPreferredSize(new Dimension(400,350));
 		
-		//Exit popup
-		exitWindow = new JPopupMenu("Exit the game?");
-		exitWindow.setLayout(new BoxLayout(exitWindow, BoxLayout.Y_AXIS));
-		exitWindow.setPreferredSize(new Dimension(150, 100));
-		
-		JPanel exitWindowMenu = new JPanel();
-		exitWindowMenu.setLayout(new BoxLayout(exitWindowMenu, BoxLayout.X_AXIS));
-		exitWindowMenu.setAlignmentX((float) .5);
-		
-		space = new JPanel();
-		space.setPreferredSize(new Dimension(180, 80));
-		
-		JLabel exitWindowLabel = new JLabel("Exit the game?");
-		exitWindowLabel.setAlignmentX((float) .5);
+		JPanel space = new JPanel();
+		space.setPreferredSize(new Dimension(180, 10));
 		
 		
-		popupButton = new JButton("Yes");
-		popupButton.setActionCommand("exitOk");
+		genericLabel = new JLabel("How to play Call of Coding: Medieval Warfare");
+		genericLabel.setAlignmentX((float) .5);
+		
+		info.add(genericLabel);
+		
+		infoMessage = ("Each player starts with a line of ten game pieces on one"
+				+ " side of the board. Each of these pieces has unique stats and"
+				+ " abilities. You can click on a piece to select it and see its"
+				+ " stats and a description of its abilities. To deselect a piece,"
+				+ " simply click it again. When a piece is selected, you can click"
+				+ " on a yellow space on the board to move the piece to that space."
+				+ " Instead of moving a piece, if your piece is within range of an"
+				+ " enemy piece the enemy piece will be highlighted and you can"
+				+ " click on the enemy piece to attack it with your piece. \r\n" + 
+				"\r\n" + 
+				"Each player takes their turn by moving and attaking with each of"
+				+ " their pieces. When a player is finsihed with their turn, they "
+				+ "click switch turn and the other player takes their turn. Each"
+				+ " player goes back and forth taking turns with the goal of defeating"
+				+ " all of the pieces of the enemy player. A player wins when the "
+				+ "enemy has no more pieces on the board.");
+		
+		genericText = new JTextArea(20, 34);
+		genericText.setAlignmentX(Component.LEFT_ALIGNMENT);
+		genericText.setLineWrap(true);
+		genericText.setWrapStyleWord(true);
+		genericText.setEditable(false);
+	    genericText.setFocusable(false);
+	    genericText.setBackground(UIManager.getColor("Label.background"));
+	    genericText.setFont(UIManager.getFont("Label.font"));
+	    genericText.setBorder(UIManager.getBorder("Label.border"));
+		genericText.setText(infoMessage);
+		
+		space.add(genericText);
+		info.add(space);
+		
+		popupButton = new JButton("Done");
+		popupButton.setActionCommand("exitInfo");
 		popupButton.addActionListener(o);
+		popupButton.setAlignmentX((float) .5);
 		
-		exitWindowMenu.add(popupButton);
-		
-		popupButton = new JButton("No");
-		popupButton.setActionCommand("exitNo");
-		popupButton.addActionListener(o);
-		
-		exitWindowMenu.add(popupButton);
-		
-		exitWindow.add(exitWindowLabel);
-		exitWindow.add(space);
-		exitWindow.add(exitWindowMenu);
-		
-		//Game Win popup
-		gameWin = new JPopupMenu("Exit the game?");
-		gameWin.setLayout(new BoxLayout(gameWin, BoxLayout.Y_AXIS));
-		gameWin.setPreferredSize(new Dimension(200, 100));
-		
-		JPanel gameWinMenu = new JPanel();
-		gameWinMenu.setLayout(new BoxLayout(gameWinMenu, BoxLayout.X_AXIS));
-		gameWinMenu.setAlignmentX((float) .5);
-		
-		space = new JPanel();
-		space.setPreferredSize(new Dimension(180, 80));
-		
-		gameWinLabel = new JLabel("The game has been won");
-		gameWinLabel.setAlignmentX((float) .5);
-		
-		popupButton = new JButton("New Game");
-		popupButton.setActionCommand("New Game");
-		popupButton.addActionListener(o);
-		
-		gameWinMenu.add(popupButton);
-		
-		popupButton = new JButton("Exit Game");
-		popupButton.setActionCommand("exitOk");
-		popupButton.addActionListener(o);
-		
-		gameWinMenu.add(popupButton);
-		
-		gameWin.add(gameWinLabel);
-		gameWin.add(space);
-		gameWin.add(gameWinMenu);
-		
+		info.add(popupButton);
+	}
+	
+	/**
+	 * show the how to play pop up.
+	 */
+	public void showInfo() {
+		info.setVisible(true);
+		info.setLocation((int)(frame.getSize().getWidth()/2 - info.getSize().getWidth()/2), (int)(frame.getSize().getHeight()/2 - info.getSize().getHeight()/2));
+	}
+	
+	/**
+	 * close the how to play pop up.
+	 */
+	public void closeInfo() {
+		info.setVisible(false);
+		info.setLocation((int)(frame.getSize().getWidth()/2 - info.getSize().getWidth()/2), (int)(frame.getSize().getHeight()/2 - info.getSize().getHeight()/2));
+	}
+	
+	/**
+	 * Create the about the game pop up.
+	 * @param o The action listener of the game.
+	 */
+	public void createAbout(ActionListener o) {
 		//About popup
 		about = new JPopupMenu("About");
 		about.setLayout(new BoxLayout(about, BoxLayout.Y_AXIS));
-		about.setPreferredSize(new Dimension(400,300));
+		about.setPreferredSize(new Dimension(400,150));
 		
-		space = new JPanel();
+		JPanel space = new JPanel();
 		space.setPreferredSize(new Dimension(180, 10));
-		space.setBackground(Color.orange);
+		
 		
 		genericLabel = new JLabel("About Call of Coding: Medieval Warfare");
 		genericLabel.setAlignmentX((float) .5);
 		
 		about.add(genericLabel);
-		about.addSeparator();
+		//about.addSeparator();
 		
 		aboutMessage = ("Call of Coding: Medieval Warfare was made by "
 				 + "Tim DeMember, Riley Truit, and Nicholas "
@@ -322,79 +361,131 @@ public class Gui  {
 		popupButton.setAlignmentX((float) .5);
 		
 		about.add(popupButton);
-		
-		//How to play
-//		about = new JPopupMenu("About");
-//		about.setLayout(new BoxLayout(about, BoxLayout.Y_AXIS));
-//		about.setPreferredSize(new Dimension(300,200));
-//		
-//		space = new JPanel();
-//		space.setPreferredSize(new Dimension(180, 80));
-//		
-//		genericLabel = new JLabel("About Call of Coding: Medieval Warfare");
-//		genericLabel.setAlignmentX((float) .5);
-//		
-//		about.add(genericLabel);
-//		about.addSeparator();
-//		
-//		aboutMessage[0] = "Call of Coding: Medieval Warfare was made by";
-//		aboutMessage[1] = "Tim DeMember, Riley Truit, and Nicholas";
-//		aboutMessage[2] = "Sparks as a final project for COMP 202.";
-//		aboutMessage[3] = "It was completed in the fall of 2020 under";
-//		aboutMessage[4] = "the threat of bad grades and corona.";
-//		
-//		for (String text : aboutMessage) {
-//			genericLabel = new JLabel(text);
-//			genericLabel.setAlignmentX((float) .5);
-//			about.add(genericLabel);
-//		}
-//		
-//		about.add(space);
-//		
-//		popupButton = new JButton("Done");
-//		popupButton.setActionCommand("exitAbout");
-//		popupButton.addActionListener(o);
-//		popupButton.setAlignmentX((float) .5);
-//		
-//		about.add(popupButton);
-		
-		//add the two main pains to the frame and make it visible.
-		frame.add(gameMapTile, BorderLayout.EAST);
-		frame.add(statsMap, BorderLayout.WEST);
-		frame.setJMenuBar(menuBar);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("Call of Coding: Medieval Warfare");
-		frame.pack();
-		frame.setVisible(true);
 	}
 	
+	/**
+	 * Show the about game pop up.
+	 */
 	public void showAbout() {
 		about.setVisible(true);
-		about.setLocation((int)(frame.getSize().getWidth()/2 - gameWin.getSize().getWidth()/2), (int)(frame.getSize().getHeight()/2 - gameWin.getSize().getHeight()/2));
-	}
-	public void closeAbout() {
-		about.setVisible(false);
-		about.setLocation((int)(frame.getSize().getWidth()/2 - gameWin.getSize().getWidth()/2), (int)(frame.getSize().getHeight()/2 - gameWin.getSize().getHeight()/2));
+		about.setLocation((int)(frame.getSize().getWidth()/2 - about.getSize().getWidth()/2), (int)(frame.getSize().getHeight()/2 - about.getSize().getHeight()/2));
 	}
 	
+	/**
+	 * close the about game pop up.
+	 */
+	public void closeAbout() {
+		about.setVisible(false);
+		about.setLocation((int)(frame.getSize().getWidth()/2 - about.getSize().getWidth()/2), (int)(frame.getSize().getHeight()/2 - about.getSize().getHeight()/2));
+	}
+	
+	/**
+	 * create the game win pop up.
+	 * @param o The action listener of the game.
+	 */
+	public void createGameWin(ActionListener o) {
+		//Game Win popup
+		gameWin = new JPopupMenu("Exit the game?");
+		gameWin.setLayout(new BoxLayout(gameWin, BoxLayout.Y_AXIS));
+		gameWin.setPreferredSize(new Dimension(200, 100));
+		
+		JPanel gameWinMenu = new JPanel();
+		gameWinMenu.setLayout(new BoxLayout(gameWinMenu, BoxLayout.X_AXIS));
+		gameWinMenu.setAlignmentX((float) .5);
+		
+		JPanel space = new JPanel();
+		space.setPreferredSize(new Dimension(180, 80));
+		
+		gameWinLabel = new JLabel("The game has been won");
+		gameWinLabel.setAlignmentX((float) .5);
+		
+		popupButton = new JButton("New Game");
+		popupButton.setActionCommand("New Game");
+		popupButton.addActionListener(o);
+		
+		gameWinMenu.add(popupButton);
+		
+		popupButton = new JButton("Exit Game");
+		popupButton.setActionCommand("exitOk");
+		popupButton.addActionListener(o);
+		
+		gameWinMenu.add(popupButton);
+		
+		gameWin.add(gameWinLabel);
+		gameWin.add(space);
+		gameWin.add(gameWinMenu);
+	}
+	
+	/**
+	 * Show the game winner pop up when given the winner.
+	 * @param winner The name of the winner.
+	 */
 	public void showGameWin(String winner) {
 		gameWin.setVisible(true);
 		gameWinLabel.setText(winner + " has won the game!");
 		gameWin.setLocation((int)(frame.getSize().getWidth()/2 - gameWin.getSize().getWidth()/2), (int)(frame.getSize().getHeight()/2 - gameWin.getSize().getHeight()/2));
 	}
 	
+	/**
+	 * close the game winner pop up.
+	 */
 	public void hideGameWin() {
 		gameWin.setVisible(false);
 	}
 	
+	/**
+	 * create the exit game window.
+	 * @param o The action listener of the game.
+	 */
+	public void createExitWindow(ActionListener o) {
+		exitWindow = new JPopupMenu("Exit the game?");
+		exitWindow.setLayout(new BoxLayout(exitWindow, BoxLayout.Y_AXIS));
+		exitWindow.setPreferredSize(new Dimension(150, 100));
+		
+		JPanel exitWindowMenu = new JPanel();
+		exitWindowMenu.setLayout(new BoxLayout(exitWindowMenu, BoxLayout.X_AXIS));
+		exitWindowMenu.setAlignmentX((float) .5);
+		
+		JPanel space = new JPanel();
+		space.setPreferredSize(new Dimension(180, 80));
+		
+		JLabel exitWindowLabel = new JLabel("Exit the game?");
+		exitWindowLabel.setAlignmentX((float) .5);
+		
+		
+		popupButton = new JButton("Yes");
+		popupButton.setActionCommand("exitOk");
+		popupButton.addActionListener(o);
+		
+		exitWindowMenu.add(popupButton);
+		
+		popupButton = new JButton("No");
+		popupButton.setActionCommand("exitNo");
+		popupButton.addActionListener(o);
+		
+		exitWindowMenu.add(popupButton);
+		
+		exitWindow.add(exitWindowLabel);
+		exitWindow.add(space);
+		exitWindow.add(exitWindowMenu);
+	}
+	
+	/**
+	 * Show the exit game pop up.
+	 */
 	public void showExitWindow() {
 		exitWindow.setVisible(true);
 		exitWindow.setLocation((int)(frame.getSize().getWidth()/2 - exitWindow.getSize().getWidth()/2), (int)(frame.getSize().getHeight()/2 - exitWindow.getSize().getHeight()/2));
 	}
 	
+	/**
+	 * Close the exit game pop up.
+	 */
 	public void hideExitWindow() {
 		exitWindow.setVisible(false);
 	}
+	
+	
 	
 	/**
 	 * sets the icon for a particular button based off of its unit type
@@ -612,5 +703,4 @@ public class Gui  {
 			currentTeam.setText("It is Red's turn");
 		}
 	}
-
 }
