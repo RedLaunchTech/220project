@@ -70,6 +70,7 @@ public class Gui  {
 	
 	//Labels 
 	JLabel gameWinLabel;
+	JLabel genericLabel;
 	
 	//Buttons for the game board and for switching turns.
 	ArrayList<JButton> gameBoard = new ArrayList<JButton>();
@@ -246,6 +247,24 @@ public class Gui  {
 		gameWin.add(space);
 		gameWin.add(gameWinMenu);
 		
+		//About popup
+		about = new JPopupMenu("About");
+		about.setLayout(new BoxLayout(about, BoxLayout.Y_AXIS));
+		about.setPreferredSize(new Dimension(200, 100));
+		
+		space = new JPanel();
+		space.setPreferredSize(new Dimension(180, 80));
+		
+		genericLabel = new JLabel("A message about the game");
+		genericLabel.setAlignmentX((float) .5);
+		
+		popupButton = new JButton("Done");
+		popupButton.setActionCommand("exitAbout");
+		popupButton.addActionListener(o);
+		
+		about.add(gameWinLabel);
+		about.add(space);
+		about.add(popupButton);
 		
 		
 		//add the two main pains to the frame and make it visible.
@@ -256,6 +275,15 @@ public class Gui  {
 		frame.setTitle("Game of Ages");
 		frame.pack();
 		frame.setVisible(true);
+	}
+	
+	public void showAbout() {
+		gameWin.setVisible(true);
+		gameWin.setLocation((int)(frame.getSize().getWidth()/2 - gameWin.getSize().getWidth()/2), (int)(frame.getSize().getHeight()/2 - gameWin.getSize().getHeight()/2));
+	}
+	public void closeAbout() {
+		gameWin.setVisible(false);
+		gameWin.setLocation((int)(frame.getSize().getWidth()/2 - gameWin.getSize().getWidth()/2), (int)(frame.getSize().getHeight()/2 - gameWin.getSize().getHeight()/2));
 	}
 	
 	public void showGameWin(String winner) {
@@ -460,9 +488,9 @@ public class Gui  {
 	 * @param g - the game piece selected.
 	 */
 	public void setStats(GamePiece g) {
-		type.setText("Unit type: " + g.getPieceType());
+		type.setText("Unit Type: " + g.getPieceType());
 		health.setText("Unit Health: " + g.getHitPoints());
-		damage.setText("Unit damage: " + g.getAttackDamage());
+		damage.setText("Unit Damage: " + g.getAttackDamage());
 		critChance.setText("Unit Critical Chance: " + String.format("%1.0f%%",g.getCritChance()*100));
 		g.getHitPoints();
 	}

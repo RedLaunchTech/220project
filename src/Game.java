@@ -65,7 +65,6 @@ public class Game implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//check to see if it is a gameboard button.
-		gui.showGameWin("Blue");
 		for (int i = 0; i <= NUMSPACES-1; i++) {
 			if (e.getActionCommand().equals("MATRIX_BUTTON_" + i)) {
 				gameRun(i);
@@ -100,7 +99,10 @@ public class Game implements ActionListener{
 			//gui.hideAboutWindow();
 		}
 		if (e.getActionCommand().equals("About")) {
-			System.out.println("Opened about page");
+			gui.showAbout();
+		}
+		if (e.getActionCommand().equals("exitAbout")) {
+			gui.showAbout();
 		}
 	}
 	
