@@ -15,9 +15,8 @@ public class Mage extends GamePiece {
 		moveSpeed = 2;
 		critChance = 0.05;
 		pieceType = "Mage";
-		description = "The mage wields the dark arts to restore 5 hitpoints to a friendly character. "
-				+ "They can attack up to 3 spaces away and if the attack is a critical hit, it will deal "
-				+ "triple the damage!";
+		description = "The mage can target friendly characters to restore 5 hitpoints. They can attack up "
+				+ "to 3 spaces away and if the attack is a critical hit, it will deal triple the damage!";
 	}
 	
 	/**
