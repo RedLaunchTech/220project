@@ -13,8 +13,10 @@ public class Assassin extends GamePiece {
 		attackDamage = 8;
 		attackRange = 1;
 		moveSpeed = 3;
-		critChance = 0.2;
+		critChance = 0.4;
 		pieceType = "Assassin";
+		description = "The asassin has the ability to sneak strike enemies. A sneak strike will deal "
+				+ "1.25x the damage if the enemy piece is not adjacent to another enemy piece.";
 		sneakMultiplier = 1.25;
 	}
 	

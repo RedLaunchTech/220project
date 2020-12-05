@@ -10,6 +10,7 @@ public abstract class GamePiece {
 	protected int moveSpeed;
 	protected double critChance;
 	protected String pieceType;
+	protected String description;
 	protected boolean isMovable;
 	
 	/**
@@ -107,6 +108,13 @@ public abstract class GamePiece {
 	}
 	
 	/**
+	 * @return description of piece and its functions
+	 */
+	public String getDescription() {
+		return description;
+	}
+	
+	/**
 	 * Set isMovable with @param isMovable
 	 */
 	public void canMove(boolean isMovable) {
@@ -143,20 +151,6 @@ public abstract class GamePiece {
 			damage = (int)(damage*1.5);
 		}
 		return damage;	
-	}
-
-	/**
-	 * @return stats of the piece
-	 */
-	public String getStats() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("Hit points: " + hitPoints + "/" + maxHitPoints + "\n");
-		sb.append("Attack damage: " + attackDamage + "\n");
-		sb.append("Attack range: " + attackRange + "\n");
-		sb.append("Crit chance: " + critChance*100 + "%\n");
-		sb.append("Movement speed: " + moveSpeed + "\n");
-		
-		return sb.toString();
 	}
 	
 	/**

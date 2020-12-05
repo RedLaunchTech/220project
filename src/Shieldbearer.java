@@ -9,13 +9,15 @@ public class Shieldbearer extends GamePiece {
 	public Shieldbearer(boolean isBlueTeam) {
 		//TODO balance stats please
 		super(isBlueTeam);
-		maxHitPoints = 20;
+		maxHitPoints = 25;
 		hitPoints = maxHitPoints;
 		attackDamage = 8;
 		attackRange = 1;
-		moveSpeed = 2;
+		moveSpeed = 1;
 		critChance = 0.2;
 		pieceType = "Shieldbearer";
+		description = "The shieldbearer has a 50% chance to block some incoming damage, cutting the "
+				+ "damage taken in half.";
 	}
 
 	/**

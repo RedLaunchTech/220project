@@ -14,5 +14,7 @@ public class Swordsman extends GamePiece {
 		moveSpeed = 2;
 		critChance = 0.2;
 		pieceType = "Swordsman";
+		description = "The standard infantry unit. Can move around at a normal speed and deal a "
+				+ "normal amount of damage.";
 	}
 }

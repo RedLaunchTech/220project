@@ -14,5 +14,7 @@ public class Knight extends GamePiece {
 		moveSpeed = 4;
 		critChance = 0.2;
 		pieceType = "Knight";
+		description = "The knight is a horse mounted unit that can move quickly and deal large amounts "
+				+ "of damage. When a knight piece dies, it loses its horse and becomes a lowly swordsman.";
 	}
 }
