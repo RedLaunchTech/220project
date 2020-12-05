@@ -96,6 +96,9 @@ public class Game implements ActionListener{
 		if (e.getActionCommand().equals("exitNo")) {
 			gui.hideExitWindow();
 		}
+		if (e.getActionCommand().equals("Open about")) {
+			//gui.hideAboutWindow();
+		}
 		if (e.getActionCommand().equals("About")) {
 			System.out.println("Opened about page");
 		}
