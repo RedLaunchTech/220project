@@ -95,14 +95,11 @@ public class Game implements ActionListener{
 		if (e.getActionCommand().equals("exitNo")) {
 			gui.hideExitWindow();
 		}
-		if (e.getActionCommand().equals("Open about")) {
-			//gui.hideAboutWindow();
-		}
 		if (e.getActionCommand().equals("About")) {
 			gui.showAbout();
 		}
 		if (e.getActionCommand().equals("exitAbout")) {
-			gui.showAbout();
+			gui.closeAbout();
 		}
 	}
 	

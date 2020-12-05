@@ -67,6 +67,7 @@ public class Gui  {
 	JLabel health;
 	JLabel damage;
 	JLabel critChance;
+	JLabel discription;
 	
 	//Labels 
 	JLabel gameWinLabel;
@@ -77,6 +78,10 @@ public class Gui  {
 	JButton turnButton;
 	JButton popupButton;
 	
+	//about message
+	String[] aboutMessage = new String[5];
+	String[] howToPlayMessage = new String[5];
+	
 	
 	/*
 	 * the default constructor for the gui.
@@ -84,7 +89,7 @@ public class Gui  {
 	public Gui(ActionListener o) {
 		
 		//start by initializing all the panels and the frame.
-		frame = new JFrame("This is a program");
+		frame = new JFrame("Call of Coding: Medieval Warfare");
 		gameMap = new JPanel();
 		gameMapTile = new JPanel();
 		statsMap = new JPanel();
@@ -124,32 +129,43 @@ public class Gui  {
 		
 		//Initialize all of the info text on the side.
 		currentTeam = new JLabel("");
-		type = new JLabel("Unit Type: ", SwingConstants.LEFT);
-		type.setVerticalAlignment(SwingConstants.TOP);
+		currentTeam.setFont(new Font("arial", Font.PLAIN, 20));
+		type = new JLabel("Unit Type: ");
 		health = new JLabel("Unit Health: ", SwingConstants.LEFT);
 		health.setVerticalAlignment(SwingConstants.TOP);
 		damage = new JLabel("Unit damage: ", SwingConstants.LEFT);
 		damage.setVerticalAlignment(SwingConstants.TOP);
 		critChance = new JLabel("Unit Critical Chance: ", SwingConstants.LEFT);
 		critChance.setVerticalAlignment(SwingConstants.TOP);
+		discription = new JLabel("Unit Discription: ", SwingConstants.LEFT);
+		critChance.setVerticalAlignment(SwingConstants.TOP);
+		
+		JPanel space = new JPanel();
+		space.setPreferredSize(new Dimension(300,SQUARE_SIZE*ROWS));
+		space.setLayout(new BoxLayout(space, BoxLayout.Y_AXIS));
+		
 		
 		//Initialize the turn change button.
 		turnButton = new JButton("Switch Turn");
+		turnButton.setFont(new Font("arial", Font.PLAIN, 25));
 		turnButton.addActionListener(o);
 		turnButton.setActionCommand("NEXT_TURN");
-		turnButton.setVerticalAlignment(SwingConstants.BOTTOM);
-		turnButton.setSize(new Dimension(180, 100));
+		
+		turnButton.setPreferredSize(new Dimension(300, 75));
 		
 		//set the layout of the left pane.
-		statsMap.setLayout(new BoxLayout(statsMap, BoxLayout.Y_AXIS));
+		statsMap.setLayout(new BorderLayout());
 		
 		//add the info text to the left pane.
-		statsMap.add(currentTeam);
-		statsMap.add(type);
-		statsMap.add(health);
-		statsMap.add(damage);
-		statsMap.add(critChance);
-		statsMap.add(turnButton);
+		space.add(currentTeam);
+		space.add(type);
+		space.add(health);
+		space.add(damage);
+		space.add(critChance);
+		space.add(discription);
+		statsMap.add(space);
+		statsMap.add(turnButton, BorderLayout.SOUTH);
+		
 		
 		//Create the top menu.
 		menuBar = new JMenuBar();
@@ -193,7 +209,7 @@ public class Gui  {
 		exitWindowMenu.setLayout(new BoxLayout(exitWindowMenu, BoxLayout.X_AXIS));
 		exitWindowMenu.setAlignmentX((float) .5);
 		
-		JPanel space = new JPanel();
+		space = new JPanel();
 		space.setPreferredSize(new Dimension(180, 80));
 		
 		JLabel exitWindowLabel = new JLabel("Exit the game?");
@@ -250,40 +266,90 @@ public class Gui  {
 		//About popup
 		about = new JPopupMenu("About");
 		about.setLayout(new BoxLayout(about, BoxLayout.Y_AXIS));
-		about.setPreferredSize(new Dimension(200, 100));
+		about.setPreferredSize(new Dimension(300,150));
 		
 		space = new JPanel();
-		space.setPreferredSize(new Dimension(180, 80));
+		space.setPreferredSize(new Dimension(180, 10));
 		
-		genericLabel = new JLabel("A message about the game");
+		genericLabel = new JLabel("About Call of Coding: Medieval Warfare");
 		genericLabel.setAlignmentX((float) .5);
+		
+		about.add(genericLabel);
+		about.addSeparator();
+		
+		aboutMessage[0] = "Call of Coding: Medieval Warfare was made by";
+		aboutMessage[1] = "Tim DeMember, Riley Truit, and Nicholas";
+		aboutMessage[2] = "Sparks as a final project for COMP 202.";
+		aboutMessage[3] = "It was completed in the fall of 2020 under";
+		aboutMessage[4] = "the threat of bad grades and corona.";
+		
+		for (String text : aboutMessage) {
+			genericLabel = new JLabel(text);
+			genericLabel.setAlignmentX((float) .5);
+			about.add(genericLabel);
+		}
+		
+		about.add(space);
 		
 		popupButton = new JButton("Done");
 		popupButton.setActionCommand("exitAbout");
 		popupButton.addActionListener(o);
+		popupButton.setAlignmentX((float) .5);
 		
-		about.add(gameWinLabel);
-		about.add(space);
 		about.add(popupButton);
 		
+		//How to play
+//		about = new JPopupMenu("About");
+//		about.setLayout(new BoxLayout(about, BoxLayout.Y_AXIS));
+//		about.setPreferredSize(new Dimension(300,200));
+//		
+//		space = new JPanel();
+//		space.setPreferredSize(new Dimension(180, 80));
+//		
+//		genericLabel = new JLabel("About Call of Coding: Medieval Warfare");
+//		genericLabel.setAlignmentX((float) .5);
+//		
+//		about.add(genericLabel);
+//		about.addSeparator();
+//		
+//		aboutMessage[0] = "Call of Coding: Medieval Warfare was made by";
+//		aboutMessage[1] = "Tim DeMember, Riley Truit, and Nicholas";
+//		aboutMessage[2] = "Sparks as a final project for COMP 202.";
+//		aboutMessage[3] = "It was completed in the fall of 2020 under";
+//		aboutMessage[4] = "the threat of bad grades and corona.";
+//		
+//		for (String text : aboutMessage) {
+//			genericLabel = new JLabel(text);
+//			genericLabel.setAlignmentX((float) .5);
+//			about.add(genericLabel);
+//		}
+//		
+//		about.add(space);
+//		
+//		popupButton = new JButton("Done");
+//		popupButton.setActionCommand("exitAbout");
+//		popupButton.addActionListener(o);
+//		popupButton.setAlignmentX((float) .5);
+//		
+//		about.add(popupButton);
 		
 		//add the two main pains to the frame and make it visible.
 		frame.add(gameMapTile, BorderLayout.EAST);
 		frame.add(statsMap, BorderLayout.WEST);
 		frame.setJMenuBar(menuBar);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("Game of Ages");
+		frame.setTitle("Call of Coding: Medieval Warfare");
 		frame.pack();
 		frame.setVisible(true);
 	}
 	
 	public void showAbout() {
-		gameWin.setVisible(true);
-		gameWin.setLocation((int)(frame.getSize().getWidth()/2 - gameWin.getSize().getWidth()/2), (int)(frame.getSize().getHeight()/2 - gameWin.getSize().getHeight()/2));
+		about.setVisible(true);
+		about.setLocation((int)(frame.getSize().getWidth()/2 - gameWin.getSize().getWidth()/2), (int)(frame.getSize().getHeight()/2 - gameWin.getSize().getHeight()/2));
 	}
 	public void closeAbout() {
-		gameWin.setVisible(false);
-		gameWin.setLocation((int)(frame.getSize().getWidth()/2 - gameWin.getSize().getWidth()/2), (int)(frame.getSize().getHeight()/2 - gameWin.getSize().getHeight()/2));
+		about.setVisible(false);
+		about.setLocation((int)(frame.getSize().getWidth()/2 - gameWin.getSize().getWidth()/2), (int)(frame.getSize().getHeight()/2 - gameWin.getSize().getHeight()/2));
 	}
 	
 	public void showGameWin(String winner) {
@@ -492,7 +558,7 @@ public class Gui  {
 		health.setText("Unit Health: " + g.getHitPoints());
 		damage.setText("Unit Damage: " + g.getAttackDamage());
 		critChance.setText("Unit Critical Chance: " + String.format("%1.0f%%",g.getCritChance()*100));
-		g.getHitPoints();
+		discription.setText("Unit Discription: " + g.getDescription());
 	}
 	
 	/**
@@ -511,10 +577,13 @@ public class Gui  {
 	 */
 	public void updateTeam(boolean isBlue) {
 		if (isBlue) {
-			currentTeam.setText("It is blue's turn");
+			currentTeam.setForeground(Color.blue);
+			currentTeam.setText("It is Blue's turn");
+			
 		}
 		else {
-			currentTeam.setText("It is red's turn");
+			currentTeam.setForeground(Color.red);
+			currentTeam.setText("It is Red's turn");
 		}
 	}
 
