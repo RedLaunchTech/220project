@@ -336,7 +336,7 @@ public class Gui  {
 		//about.addSeparator();
 		
 		aboutMessage = ("Call of Coding: Medieval Warfare was made by "
-				 + "Tim DeMember, Riley Truit, and Nicholas "
+				 + "Tim DeMember, Riley Truitt, and Nicholas "
 				 + "Sparks as a final project for COMP 202. "
 				 + "It was completed in the fall of 2020 under "
 				 + "the threat of bad grades and corona.");
