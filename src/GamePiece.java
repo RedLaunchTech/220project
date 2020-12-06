@@ -14,8 +14,7 @@ public abstract class GamePiece {
 	protected boolean isMovable;
 	
 	/**
-	 * Constructor for abstract GamePiece.
-	 * All pieces will have @param row, @param column, and @param isBlueTeam
+	 * Constructor for abstract GamePiece for team @param isBlueTeam
 	 */
 	public GamePiece(boolean isBlueTeam) {
 		this.isBlueTeam = isBlueTeam;
@@ -131,7 +130,7 @@ public abstract class GamePiece {
 	 * @return true if piece's hit points are > 0
 	 */
 	public boolean isAlive() {
-		return (this.hitPoints > 0);
+		return (hitPoints > 0);
 	}
 	
 	/**

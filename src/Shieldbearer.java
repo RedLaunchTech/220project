@@ -3,7 +3,7 @@ import java.util.Random;
 public class Shieldbearer extends GamePiece {
 	
 	/**
-	 * Constructor for a shieldbearer at position @param row, @param column and team @param isBlueTeam
+	 * Constructor for a shieldbearer for team @param isBlueTeam
 	 * Shieldbearer has preset stats.
 	 */
 	public Shieldbearer(boolean isBlueTeam) {
@@ -21,7 +21,8 @@ public class Shieldbearer extends GamePiece {
 	}
 
 	/**
-	 * Shieldbearer can block some of the incoming damage, reducing the damage taken
+	 * Shieldbearer has a 50% chance to block some of the incoming @param damage, 
+	 * reducing the damage taken to half
 	 */
 	@Override
 	public void takeDamage(int damage) {

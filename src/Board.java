@@ -42,7 +42,7 @@ public class Board {
 	}
 
 	/**
-	 * Generates roster of pieces for the @param currPlayer
+	 * Generates roster of pieces for @param currPlayer, adding the pieces to the ArrayList gamePieces
 	 */
 	private void generateRoster(boolean currPlayer) {
 		for (String s : PIECETYPES) {
@@ -99,7 +99,7 @@ public class Board {
 	public void removePiece(Integer i) {
 		positionsAndPieces.remove(i); 
 	}
-//comment
+
 	/**
 	 * Changes the position of a game piece using starting coordinates @param startRow and @param startColumn
 	 * to ending coordinates @param endRow and @param endColumn
@@ -116,7 +116,7 @@ public class Board {
 	}
 	
 	/**
-	 * Two pieces "fight". The @param attacker deals damage to the @param defender.
+	 * Two pieces "fight". The piece at @param attacker deals damage to the piece at @param attackee.
 	 */
 	public void fight(Integer attacker, Integer attackee) {
 		if(positionsAndPieces.get(attacker).getPieceType().equals("Assassin")) {
@@ -124,6 +124,7 @@ public class Board {
 		} else {
 			positionsAndPieces.get(attackee).takeDamage(positionsAndPieces.get(attacker).dealDamage());
 		}
+		
 		if (!positionsAndPieces.get(attackee).isAlive()) {
 			if (positionsAndPieces.get(attackee).getPieceType().equals("Knight")) {
 				knightDeath(attackee, positionsAndPieces.get(attackee).isBlueTeam());
@@ -134,24 +135,22 @@ public class Board {
 	}
 	
 	/**
-	 * @param assassin deals extra damage if @param target has no friendly pieces within its movement range
+	 * Assassing piece at @param attacker deals extra damage if @param attackee has no friendly pieces 
+	 * within its movement range.
 	 */
-	// i don't know if this works, but if the attacker is an assassin this should happen
 	public void stealthStrike(Integer attacker, Integer attackee) {
 		Assassin assassin = (Assassin)positionsAndPieces.get(attacker);
 		GamePiece target = positionsAndPieces.get(attackee);		
 		
-		if(isIsolated(attackee)) {
-			target.takeDamage((int)(assassin.dealDamage() * assassin.getSneakMultiplier()));
-		} else {
-			target.takeDamage(assassin.dealDamage());
-		}
+		target.takeDamage(assassin.dealDamage(isIsolated(attackee)));
 	}
 	
+	/**
+	 * @return true if @param man has no friendly pieces within one space
+	 */
 	public boolean isIsolated(Integer man) {
-		if (man + 1 % width == 0) {
-			return true;
-		} else {
+		//right
+		if (!(man + 1 % width == 0)) {
 			if (positionsAndPieces.containsKey(man + 1)) {
 				if (isFriend(man, man + 1)) {
 					return false;
@@ -159,19 +158,17 @@ public class Board {
 			}
 		}
 
-		if ((man - 1) % width == (width - 1)) {
-			return true;
-		} else {
+		//left
+		if (!((man - 1) % width == (width - 1))) {
 			if (positionsAndPieces.containsKey(man - 1)) {
 				if (isFriend(man, man - 1)) {
 					return false;
 				}
 			}
-		}
+		} 
 		
-		if ((man + width) > width*height) {
-			return true;
-		} else {
+		//down
+		if (!((man + width) > width*height)) {
 			if(positionsAndPieces.containsKey(man + width)) {
 				if(isFriend(man, man + width)) {
 					return false;
@@ -179,9 +176,8 @@ public class Board {
 			}
 		}
 		
-		if ((man - width) < 0) {
-			return true;
-		} else {
+		//up
+		if (!((man - width) < 0)) {
 			if(positionsAndPieces.containsKey(man - width)) {
 				if(isFriend(man, man - width)) {
 					return false;
@@ -583,26 +579,18 @@ public class Board {
 	}
 
 	/**
-	 * @return piece at @param row, @param column
+	 * @return piece at @param i
 	 */
 	public GamePiece getPieceAt(int i) {
 		return positionsAndPieces.get(i);
 	}
 
-	
 	/**
-	 * When the knight dies, it is as if the horse dies and it becomes a swordsman
+	 * When the knight at @param i dies, it is as if the horse dies and it becomes a swordsman
 	 */
 	public void knightDeath(Integer i, boolean team) {
 		Swordsman swordman = new Swordsman(team);
 		positionsAndPieces.put(i, swordman);
-	}
-	
-	/**
-	 * Increases the attack damage of a friendly @param target, target must be within attack range
-	 */
-	public void castBuff(Mage mage, GamePiece target) {
-		
 	}
 	
 	/**

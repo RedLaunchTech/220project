@@ -671,7 +671,7 @@ public class Gui  {
 	 */
 	public void setStats(GamePiece g) {
 		type.setText("Unit Type: " + g.getPieceType());
-		health.setText("Unit Health: " + g.getHitPoints());
+		health.setText("Unit Health: " + g.getHitPoints() + "/" + g.getMaxHitPoints());
 		damage.setText("Unit Damage: " + g.getAttackDamage());
 		critChance.setText("Unit Critical Chance: " + String.format("%1.0f%%",g.getCritChance()*100));
 		discriptionText.setText(g.getDescription());

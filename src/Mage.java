@@ -2,8 +2,10 @@ import java.util.Random;
 
 public class Mage extends GamePiece {
 	
+	private final int HEAL;
+	
 	/**
-	 * Constructor for a mage at position @param row, @param column and team @param isBlueTeam
+	 * Constructor for a mage for team @param isBlueTeam
 	 * Mage has preset stats.
 	 */
 	public Mage(boolean isBlueTeam) {
@@ -14,13 +16,14 @@ public class Mage extends GamePiece {
 		attackRange = 3;
 		moveSpeed = 2;
 		critChance = 0.05;
+		HEAL = 5;
 		pieceType = "Mage";
 		description = "The mage can target friendly characters to restore 5 hitpoints. They can attack up "
 				+ "to 3 spaces away and if the attack is a critical hit, it will deal triple the damage!";
 	}
 	
 	/**
-	 * @return damage dealt to enemy piece
+	 * @return damage dealt to enemy piece, mage deals 3x damage on a crit
 	 */
 	@Override
 	public int dealDamage() {
@@ -32,11 +35,10 @@ public class Mage extends GamePiece {
 		return damage;	
 	}
 	
-	public double buff() {
-		return 1.25;
-	}
-	
+	/**
+	 * @return amount healed to friendly piece
+	 */
 	public int heal() {
-		return 5;
+		return HEAL;
 	}
 }

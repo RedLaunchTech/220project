@@ -2,7 +2,7 @@
 public class Archer extends GamePiece {
 	
 	/**
-	 * Constructor for an archer at position @param row, @param column and team @param isBlueTeam
+	 * Constructor for an archer for team @param isBlueTeam
 	 * Archer has preset stats.
 	 */
 	public Archer(boolean isBlueTeam) {

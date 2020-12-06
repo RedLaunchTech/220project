@@ -2,7 +2,7 @@
 public class Knight extends GamePiece {
 	
 	/**
-	 * Constructor for a knight at position @param row, @param column and team @param isBlueTeam
+	 * Constructor for a knight for team @param isBlueTeam
 	 * Knight has preset stats.
 	 */
 	public Knight(boolean isBlueTeam) {
