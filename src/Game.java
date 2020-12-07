@@ -158,19 +158,7 @@ public class Game implements ActionListener{
 			else if (board.availableActions(activePiece).get((Integer) secondPoint).charAt(0)=='m') {
 				
 				board.movePiece((Integer) activePiece, (Integer) secondPoint);
-				if ((board.getPieceAt(secondPoint).getPieceType().substring(0) == "Knight")) {
-					if (moveCounter == 1) {
-						board.getPieceAt(secondPoint).canMove(false);
-						moveCounter = 0;
-					}
-					else {
-						moveCounter++;
-					}
-					System.out.println(moveCounter);
-				}
-				else {
-					board.getPieceAt(secondPoint).canMove(false);
-				}
+				board.getPieceAt(secondPoint).canMove(false);
 
 			}
 			//update gui

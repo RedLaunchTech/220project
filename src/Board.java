@@ -539,7 +539,7 @@ public class Board {
 		// up and left
 		while (colIndex != 0) {
 			rowIndex = colIndex;
-			if ((index - (attackRange-colIndex) - width*rowIndex) % 15 == width-1) {
+			if ((index - (attackRange-colIndex) + width*rowIndex) % 15 == width-1) {
 				break;
 			}
 			
