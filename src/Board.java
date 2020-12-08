@@ -3,7 +3,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
-// comment
 public class Board {
 	private final int width;
 	private final int height;
@@ -20,6 +19,11 @@ public class Board {
 		positionsAndPieces = new TreeMap<>();
 	}
 	
+	/**
+	 * 
+	 * @return TreeMap of Integer keys with String values. The key corresponds to spaces on the board and the value
+	 * corresponds to a String to be parsed and interpreted by Game and Gui
+	 */
 	public TreeMap<Integer, String> getPositionsAndPieces() {
 		TreeMap<Integer, String> positionsAndPieceTypes = new TreeMap<>();
 		for (Integer i : this.positionsAndPieces.keySet()) {
@@ -35,6 +39,9 @@ public class Board {
 		return gamePieces;
 	}
 	
+	/**
+	 * Generates rosters for teams and places those rosters on hard coded locations on the board
+	 */
 	public void initializeGame() {
 		this.generateRoster(false);
 		this.generateRoster(true);
@@ -90,7 +97,6 @@ public class Board {
 			}
 		}
 	}
-
 	
 	/**
 	 * Removes a piece from the board
@@ -135,7 +141,7 @@ public class Board {
 	}
 	
 	/**
-	 * Assassing piece at @param attacker deals extra damage if @param attackee has no friendly pieces 
+	 * Assassin piece at @param attacker deals extra damage if @param attackee has no friendly pieces 
 	 * within its movement range.
 	 */
 	public void stealthStrike(Integer attacker, Integer attackee) {
@@ -188,6 +194,12 @@ public class Board {
 		return true;
 	}
 	
+	/**
+	 * 
+	 * @param index is used to locate the piece in question and retrieve its available actions
+	 * @return TreeMap with Integer key tied to locations on the board and String values that are parsed in other classes
+	 * and are used to tell the other classes what actions can be taken at the index of the Integer key
+	 */
 	public TreeMap<Integer, String> availableActions(Integer index) {
 		TreeMap<Integer, String> availableActions = new TreeMap<>();
 		availableActions.putAll(this.getMoves(index));
@@ -195,6 +207,12 @@ public class Board {
 		return availableActions;
 	}
 	
+	/**
+	 * 
+	 * @param index is used to locate the piece in question and retrieve its available moves
+	 * @return TreeMap of Integer key that contains the unoccupied board locations that are within the piece's move speed
+	 * and has value String parsed elsewhere to communicate that the piece can move to the location at the key's Integer
+	 */
 	private TreeMap<Integer, String> getMoves(Integer index) {
 		TreeMap<Integer, String> availableMoves = new TreeMap<>();
 		GamePiece piece = this.getPieceAt(index);
@@ -355,6 +373,13 @@ public class Board {
 		return  availableMoves;
 	}
 	
+	/**
+	 * 
+	 * @param index is used to locate the piece in question and retrieve its available interactions
+	 * @return TreeMap of Integer key that contains the occupied board locations that are within the piece's attack range
+	 * and has value String parsed elsewhere to communicate that the piece can interact witho the location at the key's
+	 *  Integer
+	 */
 	private TreeMap<Integer, String> getInteractions(Integer index) {
 		TreeMap<Integer, String> availableInteractions = new TreeMap<>();
 		GamePiece piece = this.getPieceAt(index);
@@ -567,6 +592,12 @@ public class Board {
 		return availableInteractions;
 	}
 
+	/**
+	 * 
+	 * @param i is an Integer index of a board space containing a piece
+	 * @param j is an Integer index of a board space containing a piece
+	 * @return true if the piece at @param i is on the same team as the piece at @param j
+	 */
 	private boolean isFriend(Integer i, Integer j) {
 		GamePiece pieceOne = getPieceAt(i);
 		GamePiece pieceTwo = getPieceAt(j);
