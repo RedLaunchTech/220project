@@ -10,6 +10,11 @@ public class Board {
 	private ArrayList<GamePiece> gamePieces;
 	private TreeMap<Integer, GamePiece> positionsAndPieces;
 
+	/**
+	 * 
+	 * @param height gives board height
+	 * @param width gives board width
+	 */
 	public Board(int height, int width) {
 		this.width = width;
 		this.height = height;
