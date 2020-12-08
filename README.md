@@ -11,7 +11,7 @@ Call of Coding: Medieval Warfare is a two-player strategy combat game played on 
 ### Functional Description:
 Our program should generate a gridded game board, initialize an assortment of game pieces onto two teams, place those game pieces onto the board, and allow them to interact with each other at the players' discretion in a manner such that one team’s game pieces will end up entirely out of hit points, and the other player will be the victor. The board woud be represented through a GUI and inputs would handled by clicking on elements of the GUI. 
 
-### These functions can be summed up in the following lists:
+### These functions can be summed up in the following list:
 -	Create a 15x10 gridded game board
 -	Create two teams of game pieces
 -	Place the game pieces on the game board, game pieces represented by letters
