@@ -1,0 +1,6 @@
+assassin -> Tim
+bow -> Nick
+knight -> Nick
+shieldbearer -> Tim
+sword -> Nick
+wizard -> Nick
